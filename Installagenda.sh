@@ -528,7 +528,7 @@ remover_principal(){
 					mv $pastaa/temp.conf $pastaa/agendamentosd.conf
 				done
 			fi
-			sed '/^\$/d' $pastaa/agendamentosd.conf> $pastaa/temp.conf && mv $pastaa/temp.conf $pastaa/agendamentosd.conf
+			sed '/^\$/d' $pastaa/agendamentosd.conf > $pastaa/temp.conf && mv $pastaa/temp.conf $pastaa/agendamentosd.conf
 			k=1
 			num=\$(cat $pastaa/agendamentosd.conf | cut -d " " -f1)
 			if ! [ \$num ]; then
@@ -580,7 +580,7 @@ remover_principal(){
 					mv $pastaa/temp.conf $pastaa/agendamentosm.conf
 				done
 			fi
-			sed '/^\$/d' $pastaa/agendamentosm.conf> $pastaa/temp.conf && mv $pastaa/temp.conf $pastaa/agendamentosm.conf
+			sed '/^\$/d' $pastaa/agendamentosm.conf > $pastaa/temp.conf && mv $pastaa/temp.conf $pastaa/agendamentosm.conf
 			k=1
 			num1=\$(cat $pastaa/agendamentosm.conf | cut -d " " -f1)
 			if ! [ \$num1 ]; then
@@ -632,7 +632,7 @@ remover_principal(){
 					mv $pastaa/temp.conf $pastaa/agendamentosa.conf
 				done
 			fi
-			sed '/^\$/d' $pastaa/agendamentosa.conf> $pastaa/temp.conf && mv $pastaa/temp.conf $pastaa/agendamentosa.conf
+			sed '/^\$/d' $pastaa/agendamentosa.conf > $pastaa/temp.conf && mv $pastaa/temp.conf $pastaa/agendamentosa.conf
 			num2=\$(cat $pastaa/agendamentosa.conf | cut -d " " -f1)
 			if ! [ \$num2 ]; then
 				num2=0
