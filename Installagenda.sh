@@ -28,6 +28,13 @@ Para a Distribuição Debian 12 e derivados (antiX 23)" 5 $cont
 sleep 3
 clear
 
+display_principal(){
+	cont="$[${#texto} + 4]"
+	dialog --colors --infobox "$texto" 3 $cont
+	sleep 3
+	clear	
+}
+
 menu(){
 	
 	texto="SETAS PARA ESCOLHER E ENTER PARA CONFIRMAR"
@@ -44,47 +51,33 @@ menu(){
 	case $opcao in
 		1)
 		texto="Instalação sendo iniciada..."
-		cont="$[${#texto} + 4]"
-		dialog --infobox "$texto" 3 $cont
-		sleep 3
-		clear
+		display_principal
 		if [ -d "$pastaj" ]; then
 			texto="O diretório Agendador existe..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 		else
 			texto="O diretório Agendador será criado..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 			mkdir $pastaj
 		fi
 		clear
 		if [ -d "$pastaa" ]; then
 			texto="O diretório com a configuração existe..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 		else
 			texto="O diretório com a configuração será criado..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 			mkdir $pastaa
 			chown $SUDO_USER:$SUDO_USER $pastaa
 		fi
 		clear
 		if [ -d "$pastab" ]; then
 			texto="O diretório para os icones já existe..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 		else
 			texto="O diretório para os icones será criado..."
 			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 			mkdir $pastab
 			cat <<EOF > $pastaj/agendador_icones
 https://raw.githubusercontent.com/marxfcmonte/Agenda/\
@@ -94,7 +87,6 @@ EOF
 			wget -i $pastaj/agendador_icones -P /tmp/
 			mv /tmp/agenda.png $pastab
 		fi
-		clear
 		cat <<EOF > $pastaj/agendador.sh
 #!$SHELL
 
@@ -115,6 +107,14 @@ erro_principal(){
 	dialog --colors --title "\Zr\Z1      ERRO          \Zn" --infobox "\$texto" 3 \$cont
 	sleep 2
 	clear
+}
+
+display_principal(){
+	clear
+	cont="\$[\${#texto} + 4]"
+	dialog --colors --title "\$titulo" --infobox "\$texto" 3 \$cont
+	sleep 2
+	clear	
 }
 
 cadastro_principal(){ 
@@ -853,18 +853,16 @@ listar_principal(){
 	}
 
 sair(){
-	clear
-	dialog --title "SAINDO" --infobox "Saindo do agendador." 3 24
-	sleep 1
-	clear
+	texto="Saindo do agendador."
+	titulo="SAINDO"
+	display_principal
 	exit 0
 }
 
 cancelar(){
-	clear
-	dialog --title "SAINDO" --infobox "Cancelado pelo usuário." 3 27
-	sleep 1
-	clear
+	texto="Cancelado pelo usuário."
+	titulo="SAINDO"
+	display_principal
 	exit 0
 }
 
@@ -1250,10 +1248,7 @@ EOF
 		
 		cp /usr/share/applications/agendador.desktop /home/$SUDO_USER/Desktop
 		texto="Os atalhos na Àrea de trabalho foram criados..."
-		cont="$[${#texto} + 4]"
-		dialog --infobox "$texto" 3 $cont
-		sleep 3
-		clear
+		display_principal
 		chmod +x $pastaj/*.sh /usr/share/applications/*.desktop
 		chmod 775 /home/$SUDO_USER/Desktop/*.desktop
 		chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/Desktop/*.desktop
@@ -1264,20 +1259,14 @@ EOF
 			chmod +x /home/$SUDO_USER/.desktop-session/startup
 			chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.desktop-session/startup
 			texto="Configuração será instalada no Startup..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 		else
 			texto="A configuração encontrada e não será instalada..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 		fi
-		texto="Temporizador \Z2iniciado\Zn..."
-		cont="$[${#texto} + 4]"
-		dialog --colors --infobox "$texto" 3 $cont
 		pkill temporalizador.
-		sleep 3
+		texto="Temporizador \Z2iniciado\Zn..."
+		display_principal
 		bash -c "$pastaj/temporalizador.sh" & 
 		reset
 		exit 0
@@ -1285,111 +1274,79 @@ EOF
 		2)
 		pkill temporalizador.
 		texto="Temporizador \Z1finalizado\Zn..."
-		cont="$[${#texto} + 4]"
-		dialog --colors --infobox "$texto" 3 $cont
-		pkill temporalizador.
-		sleep 3
+		display_principal
 		if [ -d "$pastaj" ]; then
 			texto="O diretório Agendador será removido..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 			rm -rf $pastaj
 		else
 			texto="O diretório Agendador não encontrado..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 		fi
 		clear
 		if [ -d "$pastab" ]; then
 			texto="O diretório ../pixmaps/Agendador será removido..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 			rm -rf /usr/share/pixmaps/Agendador
 		else
 			texto="O diretório ../pixmaps/Agendador não encontrado..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 		fi
 		clear
 		if [ -d "$pastaa" ]; then
 			texto="O diretório /home/$SUDO_USER/.Agendador será removido..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 			rm -rf $pastaa
 		else
 			texto="O diretório /home/$SUDO_USER/.Agendador não encontrado..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 		fi
 		clear
 		if [ -e "/usr/share/applications/agendador.desktop" ]; then
 			texto="O arquivo ../applications/agendador.desktop será removido..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 			rm /usr/share/applications/agendador.desktop
 		else
 			texto="O arquivo ../applications/agendador.desktop não encontrado..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 		fi
 		clear
 		if [ -e "/home/$SUDO_USER/Desktop/agendador.desktop" ]; then
 			texto="O arquivo ../Desktop/agendador.desktop será removido..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 			rm /home/$SUDO_USER/Desktop/agendador.desktop
 		else
 			texto="O arquivo ../Desktop/agendador.desktop não encontrado..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 		fi
 		clear
 		cat /home/$SUDO_USER/.desktop-session/startup | grep -q "$pastaj/temporalizador.sh &"
 		if [ "$?" = "1" ]; then
 			texto="Configuração não encontrada.."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
+			display_principal
 		else
 			texto="A configuração será deletada..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
-			sleep 3
+			display_principal
 			awk -F "$pastaj/temporalizador.sh &" '{print $1}' /home/$SUDO_USER/.desktop-session/startup > /tmp/temp.conf
 			mv /tmp/temp.conf /home/$SUDO_USER/.desktop-session/startup
 			sed '/^$/d' /home/$SUDO_USER/.desktop-session/startup > /tmp/temp.conf && mv /tmp/temp.conf /home/$SUDO_USER/.desktop-session/startup
+			chmod +x /home/$SUDO_USER/.desktop-session/startup
+			chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.desktop-session/startup
 			texto="Os arquivos foram removidos..."
-			cont="$[${#texto} + 4]"
-			dialog --infobox "$texto" 3 $cont
+			display_principal
 		fi
-		chmod +x /home/$SUDO_USER/.desktop-session/startup
-		chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.desktop-session/startup
-		sleep 3
 		reset
 		exit 0
 		;;
 		3)
 		texto="Saindo do instalador..."
-		cont="$[${#texto} + 4]"
-		dialog --infobox "$texto" 3 $cont
-		sleep 3
+		display_principal
 		reset
 		exit 0
 		;;
 		*)
 		texto="Instalação cancelada..."
-		cont="$[${#texto} + 4]"
-		dialog --infobox "$texto" 3 $cont
-		sleep 3
+		display_principal
 		reset
 		exit 0
 		;;
