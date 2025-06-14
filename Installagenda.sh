@@ -109,6 +109,14 @@ fi
 
 pasta_conficuracao=/home/\$user/.Agendador
 
+erro_principal(){
+	clear
+	cont=\$[\${#texto} + 4]
+	dialog --colors --title "\Zr\Z1      ERRO          \Zn" --infobox "\$texto" 3 \$cont
+	sleep 2
+	clear
+}
+
 cadastro_principal(){ 
 	hora="00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23"
 	minuto="00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 \
@@ -133,10 +141,8 @@ cadastro_principal(){
 					fi
 				done
 				if [ "\$teste" -eq 1 ]; then
-					clear
-					dialog --colors --title "\Z1ERRO\Zn" --infobox "HORA INVÁLIDA!" 3 18
-					sleep 1
-					clear
+					texto="HORA INVÁLIDA!"
+					erro_principal
 				else
 					break
 				fi
@@ -161,10 +167,8 @@ cadastro_principal(){
 					fi
 				done
 				if [ "\$teste" -eq 1 ]; then
-					clear
-					dialog --colors --title "\Z1ERRO\Zn" --infobox "MINUTO INVÁLIDO!" 3 20
-					sleep 1
-					clear
+					texto="MINUTO INVÁLIDO!"
+					erro_principal
 				else
 					break
 				fi 
@@ -226,7 +230,7 @@ dia_principal(){
 	while true
 	do
 		texto="Informe o dia do(s) mês(s) \$opcao3 [\$dia_hoje]"
-		cont=[\${#texto} + 1]
+		cont=\$[\${#texto} + 4]
 		dia_mes=\$(dialog --title "\$texto" --inputbox "Informe o dia \$texto1: " 8 \$cont \
 --stdout) 
 		if [ "\$?" = "0" ]; then
@@ -241,10 +245,8 @@ dia_principal(){
 					fi
 				done
 				if [ "\$teste" -eq 1 ]; then
-					clear
-					dialog --colors --title "\Z1ERRO\Zn" --infobox "DIA INVÁLIDO!" 3 18
-					sleep 1
-					clear
+					texto="DIA INVÁLIDO!"
+					erro_principal
 				else
 					break
 				fi
@@ -661,7 +663,7 @@ agendamento_principal(){
 }
 
 remover_lista(){
-	if [ "\$cont" != "0" ]; then 
+	if [ "\$con" != "0" ]; then 
 		res=\$(dialog --title "AGENDAMENTOS \$nome_termo" --keep-window --begin 0 0 --msgbox "\$(
 i=1
 tot=\$(wc -l \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)
@@ -1216,7 +1218,8 @@ if [ \$cont1 -gt \$cont2 ]; then
 else
 	cont=\$cont2
 fi
-dialog --colors --title "\Zb\Z1\$texto1\Zn" --msgbox "\Zb\Z1\$texto\Zn" 6 \$cont 
+dialog --colors --title "\Zr\Z1  \$texto1                          
+              \Zn" --msgbox "\Z0\$texto\Zn" 6 \$cont
 clear
 
 exit 0
