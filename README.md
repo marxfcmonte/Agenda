@@ -5,5 +5,6 @@ por exemplo, lembrar de colocar o lixo para fora.
 
 ## Dependência
 
-- Roxterm
+- roxterm (A dependência **roxterm** está disponível em diversas distribuições baseadas em Debian, coso não haja, será instalada)
+- dialog (A dependência **dialog** está disponível em diversas distribuições baseadas em Debian, coso não haja, será instalada)
   
