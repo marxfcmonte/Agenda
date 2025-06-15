@@ -39,9 +39,9 @@ menu(){
 	texto="SETAS PARA ESCOLHER E ENTER PARA CONFIRMAR"
 	cont="$[${#texto} + 4]"
 	opcao=$(dialog --title "MENU DE INSTALAÇÃO" --menu "$texto" 10 $cont 3 \
-"1" "PARA INSTALAR" \
-"2" "PARA REMOVER" \
-"3" "PARA SAIR" \
+"1" "INSTALAR" \
+"2" "REMOVER" \
+"3" "SAIR" \
 --stdout)
 	clear
 	pastab=/usr/share/pixmaps/Agendador
@@ -88,9 +88,6 @@ EOF
 		fi
 		cat <<EOF > $pastaj/agendador.sh
 #!$SHELL
-
-:${DIALOG_OK=0}
-:${DIALOG_CANCEL=1}
 
 if [ "\$USER" = "root" ]; then
 	user=\$SUDO_USER
