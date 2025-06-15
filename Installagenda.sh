@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 if [ "$USER" != "root" ]; then
 	echo "Use comando 'sudo'  ou comando 'su' antes de inicializar o programa."
 	exit 1
