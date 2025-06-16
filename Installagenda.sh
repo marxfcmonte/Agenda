@@ -686,7 +686,7 @@ done)"  0 0 \
 			res1="\$(echo -e  "\$i")" 
 			res2="\$(echo -e "\$res1\n\$res2")" 
 		done
-		res=\$(echo "\$res2" | tr 'abcdefghijklmnoprstuvxzyw' ' ')
+		res=\$(echo -e "\$res2" | tr 'abcdefghijklmnoprstuvxzyw' ' ')
 		res=\$(echo "\$res" | sort -n | tr '\n' ' ')
 		res=\$(echo "\$res" | tr -s ' ')
 		echo "\$res" > \$pasta_conficuracao/removidos\$d.conf
