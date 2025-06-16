@@ -28,7 +28,10 @@ sleep 3
 clear
 
 display_principal(){
-	cont="$[${#texto} + 4]"
+	if ! [ $conta ]; then
+		conta=0
+	fi
+	cont="$[${#texto} + 4 - $conta]"
 	dialog --colors --infobox "$texto" 3 $cont
 	sleep 3
 	clear	
@@ -675,23 +678,38 @@ do
 	i=\$[i+1]
 done)"  0 0 \
 --and-widget --keep-window --begin 13 48 --inputbox "Informe um número do\nagendamento para remover.\n\
-[Use um espaço entre\nos números informados.]" 0 0 --stdout) 
-		res=\$(echo "\$res" | grep -o '[0-9]' | sort -n | tr '\n' ' ')
+[Use um espaço entre\nos números informados.]" 0 0 --stdout)
+		res1=""
+		res2=""
+		for i in \$res
+		do 
+			res1="\$(echo -e  "\$i")" 
+			res2="\$(echo -e "\$res1\n\$res2")" 
+		done
+		res=\$(echo "\$res2" | tr 'abcdefghijklmnoprstuvxzyw' ' ')
+		res=\$(echo "\$res" | sort -n | tr '\n' ' ')
+		res=\$(echo "\$res" | tr -s ' ')
 		echo "\$res" > \$pasta_conficuracao/removidos\$d.conf
 		q=0
+		tot="\$(wc -l \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)"
 		if [ "\$res" ]; then 
 			for i in \$res
 			do
-				k=\$[i - q]
-				awk -F "\$i - " '{print \$1}' \$pasta_conficuracao/agendamentos\$d.conf > \
-				\$pasta_conficuracao/temp.conf
-				mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/agendamentos\$d.conf
-				sed "\$k d" \$pasta_conficuracao/descricao\$d.conf > \$pasta_conficuracao/temp.conf
-				mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/descricao\$d.conf
-				sed '/^\$/d' \$pasta_conficuracao/descricao\$d.conf > \
+				if [ \$i -le \$tot ]; then
+					k=\$[i - q]
+					sed "\$k d" \$pasta_conficuracao/agendamentos\$d.conf > \
+\$pasta_conficuracao/temp.conf
+					mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/agendamentos\$d.conf
+					sed '/^\$/d' \$pasta_conficuracao/agendamentos\$d.conf > \
+\$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \
+\$pasta_conficuracao/agendamentos\$d.conf
+					sed "\$k d" \$pasta_conficuracao/descricao\$d.conf > \$pasta_conficuracao/temp.conf
+					mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/descricao\$d.conf
+					sed '/^\$/d' \$pasta_conficuracao/descricao\$d.conf > \
 \$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \
 \$pasta_conficuracao/descricao\$d.conf
-				q=\$[q + 1]
+					q=\$[q + 1]
+				fi
 			done
 		fi
 		sed '/^\$/d' \$pasta_conficuracao/agendamentos\$d.conf > \
@@ -1017,7 +1035,7 @@ ativador_principal(){
 										teste_1="\$n"
 										echo "\$teste_1" > \$pasta_conficuracao/\$teste
 										roxterm -e "bash -c \$pasta_aplicacoes/mostrador.sh" &
-										sleep 10
+										sleep 1
 									fi
 								fi
 								;;
@@ -1033,9 +1051,9 @@ ativador_principal(){
 
 while true
 do	
-	diaconfiguracao=\$(cat \$pasta_conficuracao/agendamentosd.conf)
-	mesconfiguracao=\$(cat \$pasta_conficuracao/agendamentosm.conf)
-	anoconfiguracao=\$(cat \$pasta_conficuracao/agendamentosa.conf)
+	diaconfiguracao="\$(cat \$pasta_conficuracao/agendamentosd.conf)"
+	mesconfiguracao="\$(cat \$pasta_conficuracao/agendamentosm.conf)"
+	anoconfiguracao="\$(cat \$pasta_conficuracao/agendamentosa.conf)"
 	test1="\${#diaconfiguracao}"
 	test2="\${#mesconfiguracao}"
 	test3="\${#anoconfiguracao}"
@@ -1167,7 +1185,7 @@ do
 		ativador_principal
 		teste3=\$teste_1
 	fi
-	sleep 1
+	sleep 3
 done
 
 exit 0
@@ -1262,6 +1280,7 @@ EOF
 		fi
 		pkill temporalizador.
 		texto="Temporizador \Z2iniciado\Zn..."
+		conta=6
 		display_principal
 		bash -c "$pastaj/temporalizador.sh" & 
 		reset
