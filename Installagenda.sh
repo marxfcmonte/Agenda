@@ -662,8 +662,10 @@ agendamento_principal(){
 }
 
 remover_lista(){
-	if [ "\$con" != "0" ]; then 
-		res=\$(dialog --title "AGENDAMENTOS \$nome_termo" --keep-window --begin 0 0 --msgbox "\$(
+	while true
+	do
+		if [ "\$con" != "0" ]; then 
+			res=\$(dialog --title "AGENDAMENTOS \$nome_termo" --keep-window --begin 0 0 --msgbox "\$(
 i=1
 tot=\$(wc -l \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)
 while true
@@ -677,62 +679,80 @@ do
 	fi
 	i=\$[i+1]
 done)"  0 0 \
---and-widget --keep-window --begin 13 48 --inputbox "Informe um número do\nagendamento para remover.\n\
-[Use um espaço entre\nos números informados.]" 0 0 --stdout)
-		res1=""
-		res2=""
-		for i in \$res
-		do 
-			res1="\$(echo -e  "\$i")" 
-			res2="\$(echo -e "\$res1\n\$res2")" 
-		done
-		res=\$(echo -e "\$res2" | tr 'abcdefghijklmnoprstuvxzyw' ' ')
-		res=\$(echo "\$res" | sort -n | tr '\n' ' ')
-		res=\$(echo "\$res" | tr -s ' ')
-		echo "\$res" > \$pasta_conficuracao/removidos\$d.conf
-		q=0
-		tot="\$(wc -l \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)"
-		if [ "\$res" ]; then 
-			for i in \$res
-			do
-				if [ \$i -le \$tot ]; then
-					k=\$[i - q]
-					sed "\$k d" \$pasta_conficuracao/agendamentos\$d.conf > \
-\$pasta_conficuracao/temp.conf
-					mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/agendamentos\$d.conf
-					sed '/^\$/d' \$pasta_conficuracao/agendamentos\$d.conf > \
-\$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \
-\$pasta_conficuracao/agendamentos\$d.conf
-					sed "\$k d" \$pasta_conficuracao/descricao\$d.conf > \$pasta_conficuracao/temp.conf
-					mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/descricao\$d.conf
-					sed '/^\$/d' \$pasta_conficuracao/descricao\$d.conf > \
-\$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \
-\$pasta_conficuracao/descricao\$d.conf
-					q=\$[q + 1]
+--and-widget --keep-window --begin 13 44 --help-button --inputbox "Informe os agendamentos para remover:" 0 0 --stdout) 
+			var="\$?"
+			if [ "\$var" = "2" ]; then
+				dialog --title "AJUDA" --msgbox "Informe os números dos agendanentos separados por\nvírgula para remover os agendamentos desejados \
+ou por um '-' para remover uma série de agendamentos, com o menor número e o maior número desejados." 0 0
+			elif [ "\$var" = "1" ]; then
+				remover_secundario
+			else
+				if [ \$(echo \$res | grep ',') ]; then
+					res=\$(echo -e "\$res" | tr ',' ' ')
+				elif [ \$(echo \$res | grep '-') ]; then
+					na=\$(echo -e "\$res" | cut -d "-" -f1)
+					nb=\$(echo -e "\$res" | cut -d "-" -f2)
+					res=\$(seq \$na \$nb | tr '\n' ' ')
 				fi
-			done
-		fi
-		sed '/^\$/d' \$pasta_conficuracao/agendamentos\$d.conf > \
+				res1=""
+				res2=""
+				for i in \$res
+				do 
+					res1="\$(echo -e  "\$i")" 
+					res2="\$(echo -e "\$res1\n\$res2")" 
+				done
+				res=\$(echo -e "\$res2" | tr '0abcdefghijklmnoprstuvxzyw' ' ')
+				res=\$(echo "\$res2" | sort -n | tr '\n' ' ')
+				res=\$(echo "\$res" | tr -s ' ')
+				echo "\$res" > \$pasta_conficuracao/removidos\$d.conf
+				q=0
+				tot="\$(wc -l \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)"
+				if [ "\$res" ]; then 
+					for i in \$res
+					do
+						if [ \$i -le \$tot ]; then
+							k=\$[i - q]
+							sed "\$k d" \$pasta_conficuracao/agendamentos\$d.conf > \
+\$pasta_conficuracao/temp.conf
+							mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/agendamentos\$d.conf
+							\sed '/^\$/d' \$pasta_conficuracao/agendamentos\$d.conf > \
 \$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \
 \$pasta_conficuracao/agendamentos\$d.conf
-		sed '/^\$/d' \$pasta_conficuracao/descricao\$d.conf > \
+							sed "\$k d" \$pasta_conficuracao/descricao\$d.conf > \$pasta_conficuracao/temp.conf
+							mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/descricao\$d.conf
+							sed '/^\$/d' \$pasta_conficuracao/descricao\$d.conf > \
 \$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \
 \$pasta_conficuracao/descricao\$d.conf
-		k=1
-		num=\$(cat \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)
-		num1=\${#num}
-		if [ "\$num" != "0" ]; then
-			for i in \$num
-			do
-				sed "s/\$i -/\$k -/g" \$pasta_conficuracao/agendamentos\$d.conf > \$pasta_conficuracao/temp.conf
-				mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/agendamentos\$d.conf
-				k=\$[k + 1]
-			done
+							q=\$[q + 1]
+						fi
+					done
+				fi
+				sed '/^\$/d' \$pasta_conficuracao/agendamentos\$d.conf > \
+\$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \
+\$pasta_conficuracao/agendamentos\$d.conf
+				sed '/^\$/d' \$pasta_conficuracao/descricao\$d.conf > \
+\$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \
+\$pasta_conficuracao/descricao\$d.conf
+				k=1
+				num=\$(cat \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)
+				num1=\${#num}
+				if [ "\$num" != "0" ]; then
+					for i in \$num
+					do
+						sed "s/\$i -/\$k -/g" \$pasta_conficuracao/agendamentos\$d.conf > \$pasta_conficuracao/temp.conf
+						mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/agendamentos\$d.conf
+						k=\$[k + 1]
+					done
+				fi
+				break
+			fi
+		else
+			texto="SEM AGENDAMENTOS \$nome_termo"
+			dialog --nocancel --title "\$texto" --msgbox "Sem Compromissos agendados." 5 31
+			break
 		fi
-	else
-		texto="SEM AGENDAMENTOS \$nome_termo"
-		dialog --nocancel --title "\$texto" --msgbox "Sem Compromissos agendados." 5 31
-	fi
+	done
+	remover_secundario
 }
 
 remover_principal(){
