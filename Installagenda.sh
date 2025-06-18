@@ -687,7 +687,7 @@ ou por um '-' para remover uma série de agendamentos, com o menor número e o m
 			elif [ "\$var" = "1" ]; then
 				remover_secundario
 			else
-				if [ \$(echo \$res | grep -i '[a-z]' ) ] ; then
+				if [ \$(echo \$res | grep -i '[a-z]') ] ; then
 					texto="Dado inválido! Informe apenas números. Ex.: 1,3 ou 1-3"
 					erro_principal
 					remover_secundario
