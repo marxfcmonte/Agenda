@@ -9,6 +9,6 @@ por exemplo, lembrar de tomar um remédio, com três tipos de agendamentos:
 
 ## Dependência
 
-- roxterm (A dependência **roxterm** está disponível em diversas distribuições baseadas em Debian, caso não haja, será instalada)
-- dialog (A dependência **dialog** está disponível em diversas distribuições baseadas em Debian, caso não haja, será instalada)
+- roxterm (A dependência **roxterm** está disponível em diversas distribuições baseadas em Debian, caso não haja, será instalada.)
+- dialog (A dependência **dialog** está disponível em diversas distribuições baseadas em Debian, caso não haja, será instalada.)
   
