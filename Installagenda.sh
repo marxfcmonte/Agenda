@@ -103,7 +103,7 @@ pasta_conficuracao=/home/\$user/.Agendador
 erro_principal(){
 	clear
 	cont=\$[\${#texto} + 4]
-	dialog --colors --title "\Zr\Z1      ERRO          \Zn" --infobox "\$texto" 3 \$cont
+	dialog --colors --title "\Zr\Z1  ERRO                                                            \Zn" --infobox "\$texto" 3 \$cont
 	sleep 2
 	clear
 }
@@ -687,6 +687,11 @@ ou por um '-' para remover uma série de agendamentos, com o menor número e o m
 			elif [ "\$var" = "1" ]; then
 				remover_secundario
 			else
+				if [ \$(echo \$res | grep -i '[a-z]' ) ] ; then
+					texto="Dado inválido! Informe apenas números. Ex.: 1,3 ou 1-3"
+					erro_principal
+					remover_secundario
+				fi
 				if [ \$(echo \$res | grep ',') ]; then
 					res=\$(echo -e "\$res" | tr ',' ' ')
 				elif [ \$(echo \$res | grep '-') ]; then
@@ -701,7 +706,6 @@ ou por um '-' para remover uma série de agendamentos, com o menor número e o m
 					res1="\$(echo -e  "\$i")" 
 					res2="\$(echo -e "\$res1\n\$res2")" 
 				done
-				res=\$(echo -e "\$res2" | tr '0abcdefghijklmnoprstuvxzyw' ' ')
 				res=\$(echo "\$res2" | sort -n | tr '\n' ' ')
 				res=\$(echo "\$res" | tr -s ' ')
 				echo "\$res" > \$pasta_conficuracao/removidos\$d.conf
