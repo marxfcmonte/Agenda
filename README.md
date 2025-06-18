@@ -1,7 +1,7 @@
 # Agenda - Para Debian 12 e derivados
 
 Cria notificações na tela com a função de lembrar de compromissos urgentes como,
-por exemplo, lembrar de colocar o lixo para fora. 
+por exemplo, lembrar de tomar um remédio ou um compromisso urgente. 
 
 ## Dependência
 
