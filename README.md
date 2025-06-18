@@ -7,7 +7,7 @@ por exemplo, lembrar de tomar um remédio, com três tipos de agendamentos:
 - **Mensal** (Ótimo para compromissos com tempo em meses definidos.); e
 - **Anual** (Ótimo para compromissos com tempo em anos definidos.). 
 
-## Dependência
+## Dependências
 
 - roxterm (A dependência **roxterm** está disponível em diversas distribuições baseadas em Debian, caso não haja, será instalada.)
 - dialog (A dependência **dialog** está disponível em diversas distribuições baseadas em Debian, caso não haja, será instalada.)
