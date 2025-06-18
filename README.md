@@ -3,9 +3,9 @@
 Cria notificações personalizadas na tela com a função de lembrar de compromissos urgentes como,
 por exemplo, lembrar de tomar um remédio, com três tipos de agendamentos: 
 
-- **Semanal** (Ótimo para compromissos com tempo em dias da semana definidos);
-- **Mensal** (Ótimo para compromissos com tempo em meses definidos); e
-- **Anual** (Ótimo para compromissos com tempo em anos definidos). 
+- **Semanal** (Ótimo para compromissos com tempo em dias da semana definidos.);
+- **Mensal** (Ótimo para compromissos com tempo em meses definidos.); e
+- **Anual** (Ótimo para compromissos com tempo em anos definidos.). 
 
 ## Dependência
 
