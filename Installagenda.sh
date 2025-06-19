@@ -34,25 +34,21 @@ display_principal(){
 	else
 		cont=$teste
 	fi
-	texto=$1
-	cont1="$[${#texto} + 4 - $cont]"
+	texto=$1 ; cont1=$[${#texto} + 4 - $cont]
 	dialog --colors --infobox "$texto" 3 $cont1
 	sleep 3
 	clear	
 }
 
 menu(){
-	
-	texto="SETAS PARA ESCOLHER E ENTER PARA CONFIRMAR"
-	cont="$[${#texto} + 4]"
+	texto="SETAS PARA ESCOLHER E ENTER PARA CONFIRMAR" ; cont="$[${#texto} + 4]"
 	opcao=$(dialog --title "MENU DE INSTALAÇÃO" --menu "$texto" 10 $cont 3 \
 "1" "INSTALAR" \
 "2" "REMOVER" \
 "3" "SAIR" \
 --stdout)
 	clear
-	pastab=/usr/share/pixmaps/Agendador
-	pastaj=/usr/share/Agendador
+	pastab=/usr/share/pixmaps/Agendador ; pastaj=/usr/share/Agendador
 	pastaa=/home/$SUDO_USER/.Agendador
 	case $opcao in
 		1)
@@ -60,16 +56,14 @@ menu(){
 		if [ -d "$pastaj" ]; then
 			display_principal "O diretório Agendador existe..."
 		else
-			display_principal "O diretório Agendador será criado..."
-			mkdir $pastaj
+			display_principal "O diretório Agendador será criado..." ; mkdir $pastaj
 		fi
 		clear
 		if [ -d "$pastaa" ]; then
 			display_principal "O diretório com a configuração existe..."
 		else
 			display_principal "O diretório com a configuração será criado..."
-			mkdir $pastaa
-			chown $SUDO_USER:$SUDO_USER $pastaa
+			mkdir $pastaa ; chown $SUDO_USER:$SUDO_USER $pastaa
 		fi
 		clear
 		if [ -d "$pastab" ]; then
@@ -97,22 +91,15 @@ fi
 pasta_conficuracao=/home/\$user/.Agendador
 
 erro_principal(){
-	clear
-	texto=\$1
-	cont=\$[\${#texto} + 4]
+	clear ; texto=\$1 ; cont=\$[\${#texto} + 4]
 	dialog --colors --title "\Zr\Z1  ERRO                                                            \Zn" --infobox "\$texto" 3 \$cont
-	sleep 2
-	clear
+	sleep 2 ; clear
 }
 
 display_principal(){
-	clear
-	titulo=\$1
-	texto=\$2
-	cont="\$[\${#texto} + 4]"
+	clear ; titulo=\$1 ; texto=\$2 ; cont="\$[\${#texto} + 4]"
 	dialog --colors --title "\$titulo" --infobox "\$texto" 3 \$cont
-	sleep 2
-	clear	
+	sleep 2 ; clear	
 }
 
 cadastro_principal(){ 
@@ -132,8 +119,7 @@ cadastro_principal(){
 				for j in \$hora
 				do
 					if [ "\$tempoh" = "\$j" ]; then
-						teste=0
-						break
+						teste=0 ; break
 					else
 						teste=1
 					fi
@@ -144,9 +130,7 @@ cadastro_principal(){
 					break
 				fi
 			else
-				clear
-				agendamento_principal
-				break
+				clear ; agendamento_principal ; break
 			fi
 		done
 		while true
@@ -157,8 +141,7 @@ cadastro_principal(){
 				for j in \$minuto
 				do
 					if [ "\$tempom" = "\$j" ]; then
-						teste=0
-						break
+						teste=0 ; break
 					else
 						teste=1
 					fi
@@ -169,14 +152,11 @@ cadastro_principal(){
 					break
 				fi 
 			else
-				clear
-				agendamento_principal
-				break
+				clear ; agendamento_principal ; break
 			fi
 		done
 	else
-		clear
-		agendamento_principal
+		clear ; agendamento_principal
 	fi
 }
 
@@ -204,24 +184,14 @@ semana_principal(){
 }
 
 dia_principal(){
-	dia_num=\$1
-	caso=\$2
-	dia_hoje=\$(date +%d)
+	dia_num=\$1 ; caso=\$2 ; dia_hoje=\$(date +%d)
 	case \$caso in 
-		1)
-		texto1="[01 a 31]"
-		;;
-		2)
-		texto1="[01 a 30]"
-		;;
+		1) texto1="[01 a 31]" ;;
+		2) texto1="[01 a 30]" ;;
 		3)
 		case \$dia_bi in 
-			0)
-			texto1="[01 a 29]"
-			;;
-			1)
-			texto1="[01 a 28]"
-			;;
+			0) texto1="[01 a 29]" ;;
+			1) texto1="[01 a 28]" ;;
 		esac
 		;;
 	esac
@@ -236,8 +206,7 @@ dia_principal(){
 				for j in \$dia_num
 				do
 					if [ "\$dia_mes" = "\$j" ]; then
-						teste=0
-						break
+						teste=0 ; break
 					else
 						teste=1
 					fi
@@ -248,14 +217,10 @@ dia_principal(){
 					break
 				fi
 			else
-				clear
-				dia_mes=\$dia_hoje
-				break
+				clear ; dia_mes=\$dia_hoje ; break
 			fi
 		else
-			clear
-			agendamento_principal
-			break
+			clear ; agendamento_principal ; break
 		fi
 	done
 	
@@ -285,26 +250,19 @@ mes_principal(){
 24 25 26 27 28 29"
 	dia4="01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 \
 24 25 26 27 28"
-	ano=\$(date +%Y)
-	resto=\$[ano % 4]
-	resto1=\$[ano % 100]
-	resto2=\$[ano % 400]
+	ano=\$(date +%Y) ; resto=\$[ano % 4] ; resto1=\$[ano % 100] ; resto2=\$[ano % 400]
 	if [ \$resto -eq 0 ]; then
 		if [ \$resto1 -ne 0 ]; then
-			diab=\$dia3
-			dia_bi=0
+			diab=\$dia3 ; dia_bi=0
 		else
 			if [ \$resto2 -eq 0 ]; then
-				diab=\$dia3
-				dia_bi=0
+				diab=\$dia3 ; dia_bi=0
 			else
-				diab=\$dia4
-				dia_bi=1
+				diab=\$dia4 ; dia_bi=1
 			fi
 		fi
 	else
-		diab=\$dia4
-		dia_bi=1
+		diab=\$dia4 ; dia_bi=1
 	fi
 	opcao3=\$(dialog --no-cancel --title "MENU - MESES D0 ANO" --checklist \
 "Qual dos meses serão habilitados?" 19 38 12 \
@@ -325,38 +283,26 @@ mes_principal(){
 	for i in \$opcao3 
 	do
 		case \$i in
-			"fev")
-			dia_principal "\$diab" "3"
-			break
-			;;
+			"fev") dia_principal "\$diab" "3" ; break ;;
 			"abr"|"jun"|"set"|"nov") 
 			teste=0
 			for j in \$opcao3 
 			do
 				case \$j in
-					"fev")
-					dia_principal "\$diab" "3"
-					teste=1
-					break
-					;;
+					"fev") dia_principal "\$diab" "3" ; teste=1 ; break ;;
 				esac
 			done
 			if [ \$teste -eq 1 ]; then
 				break
 			fi
-			dia_principal "\$dia2" "2"
-			break
+			dia_principal "\$dia2" "2" ; break
 			;;
 			"jan"|"mar"|"mai"|"jul"|"ago"|"out"|"dez") 
 			teste=0
 			for j in \$opcao3 
 			do
 				case \$j in
-					"fev")
-					dia_principal "\$diab" "3"
-					teste=1
-					break
-					;;
+					"fev") dia_principal "\$diab" "3" ; teste=1 ; break ;;
 				esac
 			done
 			if [ \$teste -eq 1 ]; then
@@ -367,18 +313,13 @@ mes_principal(){
 			do
 				case \$j in
 					"abr"|"jun"|"set"|"nov")
-					dia_principal "\$dia2" "2"
-					teste=1
-					break
-					;;
+					dia_principal "\$dia2" "2" ; teste=1 ; break ;;
 				esac
 			done
 			if [ \$teste -eq 1 ]; then
 				break
 			fi
-			dia_principal "\$dia1" "1"
-			break
-			;;
+			dia_principal "\$dia1" "1" ; break ;;
 		esac
 	done
 }
@@ -426,18 +367,10 @@ agendamento_secundario(){
 --stdout)
 	clear
 	case \$opcao1 in
-		1)
-		agendamento_principal
-		;;
-		2)
-		menu_principal
-		;;
-		3)
-		sair
-		;;
-		*)
-		cancelar
-		;;
+		1) agendamento_principal ;;
+		2) menu_principal ;;
+		3) sair ;;
+		*) cancelar ;;
 	esac
 }
 
@@ -451,18 +384,10 @@ remover_secundario(){
 --stdout)
 	clear
 	case \$opcao1 in
-		1)
-		remover_principal
-		;;
-		2)
-		menu_principal
-		;;
-		3)
-		sair
-		;;
-		*)
-		cancelar
-		;;
+		1) remover_principal ;;
+		2) menu_principal ;;
+		3) sair ;;
+		*) cancelar ;;
 	esac
 }
 
@@ -476,18 +401,10 @@ listar_secundario(){
 --stdout)
 	clear
 	case \$opcao1 in
-		1)
-		listar_principal
-		;;
-		2)
-		menu_principal
-		;;
-		3)
-		sair
-		;;
-		*)
-		cancelar
-		;;
+		1) listar_principal ;;
+		2) menu_principal ;;
+		3) sair ;;
+		*) cancelar ;;
 	esac
 }
 
@@ -515,19 +432,13 @@ agendamento_principal(){
 --stdout)
 	case \$opcao1 in
 		1) 
-		cadastro_principal
-		semana_principal
-		teste=0
-		k=""
+		cadastro_principal ; semana_principal ; teste=0 ; k=""
 		for i in \$opcao2
 		do	
 			if [ "\$teste" -eq 0 ]; then
-				k="\$i "
-				semana="\$k"
-				teste=1
+				k="\$i " ; semana="\$k" ; teste=1
 			else
-				semana="\$k\$i "
-				k="\$k\$i "
+				semana="\$k\$i " ; k="\$k\$i "
 			fi
 		done
 		if [ "\${#semana}" != "0" ]; then
@@ -549,20 +460,13 @@ agendamento_principal(){
 		agendamento_secundario
 		;;
 		2)
-		cadastro_principal
-		mes_principal
-		semana=\$dia_mes
-		teste=0
-		k=""
+		cadastro_principal ; mes_principal ; semana=\$dia_mes ; teste=0 ; k=""
 		for i in \$opcao3
 		do	
 			if [ "\$teste" -eq 0 ]; then
-				k="\$i "
-				meses="\$k"
-				teste=1
+				k="\$i " ; meses="\$k" ; teste=1
 			else
-				meses="\$k\$i "
-				k="\$k\$i "
+				meses="\$k\$i " ; k="\$k\$i "
 			fi
 		done
 		if [ "\${#meses}" != "0" ]; then
@@ -584,34 +488,23 @@ agendamento_principal(){
 		agendamento_secundario
 		;;
 		3) 
-		cadastro_principal
-		mes_principal
-		ano_principal
-		semana=\$dia_mes
-		teste=0
-		k=""
+		cadastro_principal ; mes_principal ; ano_principal ; semana=\$dia_mes
+		teste=0 ; k=""
 		for i in \$opcao3
 		do	
 			if [ "\$teste" -eq 0 ]; then
-				k="\$i "
-				meses="\$k"
-				teste=1
+				k="\$i " ; meses="\$k" ; teste=1
 			else
-				meses="\$k\$i "
-				k="\$k\$i "
+				meses="\$k\$i " ; k="\$k\$i "
 			fi
 		done
-		teste=0
-		k=""
+		teste=0 ; k=""
 		for i in \$opcao4
 		do	
 			if [ "\$teste" -eq 0 ]; then
-				k="\$i "
-				anos="\$k"
-				teste=1
+				k="\$i " ; anos="\$k" ; teste=1
 			else
-				anos="\$k\$i "
-				k="\$k\$i "
+				anos="\$k\$i " ; k="\$k\$i "
 			fi
 		done
 		if [ "\${#meses}" != "0" ]; then
@@ -627,30 +520,19 @@ agendamento_principal(){
 		echo "\$num3 - Descrição: | * Ano(s): \$anos * Mes(es) do ano: \$meses * Dia do(s) mes(es): \$semana * Horário: \$tempoh:\$tempom" >> \
 \$pasta_conficuracao/agendamentosa.conf
 		clear
-		tamanho="\$(cat \$pasta_conficuracao/agendamentosa.conf | tail -n 1)"
-		tamanho=\${#tamanho}
-		tamanho=\$[tamanho / 7]
+		tamanho="\$(cat \$pasta_conficuracao/agendamentosa.conf | tail -n 1)" ; tamanho=\${#tamanho} ; tamanho=\$[tamanho / 7]
 		dialog --nocancel --title "AGENDAMENTO ANUAL" --pause "\$(cat \$pasta_conficuracao/agendamentosa.conf | tail -n 1 | cut -d ":" -f1): \
 \$(cat \$pasta_conficuracao/descricaoa.conf | tail -n 1) \
 \$(cat \$pasta_conficuracao/agendamentosa.conf | tail -n 1 | cut -d "|" -f2)" \$tamanho 70 20
-		agendamento_secundario
-		;;
-		4)
-		menu_principal
-		;;
-		5) 
-		sair
-		;;
-		*)
-		cancelar
-		;;
+		agendamento_secundario ;;
+		4) menu_principal ;;
+		5) sair ;;
+		*) cancelar ;;
 	esac
 }
 
 remover_lista(){
-	nome_termo=\$1 
-	tipo_arq=\$2
-	con=\$3
+	nome_termo=\$1 ; tipo_arq=\$2 ; con=\$3
 	while true
 	do
 		if [ "\$con" != "0" ]; then 
@@ -683,19 +565,18 @@ ou por um '-' para remover uma série de agendamentos, com o menor número e o m
 				if [ \$(echo \$res | grep ',') ]; then
 					res=\$(echo -e "\$res" | tr ',' ' ')
 				elif [ \$(echo \$res | grep '-') ]; then
-					na=\$(echo -e "\$res" | cut -d "-" -f1)
-					nb=\$(echo -e "\$res" | cut -d "-" -f2)
+					na=\$(echo -e "\$res" | cut -d "-" -f1) ; nb=\$(echo -e "\$res" | cut -d "-" -f2)
+					if [ \$nb -lt \$na ]; then
+						nc=\$na ; na=\$nb ; nb=\$nc
+					fi
 					res=\$(seq \$na \$nb | tr '\n' ' ')
 				fi
-				res1=""
-				res2=""
+				res1="" ; res2=""
 				for i in \$res
 				do 
-					res1="\$(echo -e  "\$i")" 
-					res2="\$(echo -e "\$res1\n\$res2")" 
+					res1="\$(echo -e  "\$i")" ; res2="\$(echo -e "\$res1\n\$res2")" 
 				done
-				res=\$(echo "\$res2" | sort -n | tr '\n' ' ')
-				res=\$(echo "\$res" | tr -s ' ')
+				res=\$(echo "\$res2" | sort -n | tr '\n' ' ') ; res=\$(echo "\$res" | tr -s ' ')
 				echo "\$res" > \$pasta_conficuracao/removidos\$tipo_arq.conf
 				q=0
 				tot="\$(wc -l \$pasta_conficuracao/agendamentos\$tipo_arq.conf | cut -d " " -f1)"
@@ -770,34 +651,17 @@ remover_principal(){
 --stdout)
 	clear
 	case \$opcao1 in
-		1)
-		remover_lista "SEMANAIS" "d" "\$num"
-		remover_secundario
-		;;
-		2)
-		remover_lista "MENSAIS" "m" "\$num1"
-		remover_secundario
-		;;
-		3)
-		remover_lista "ANUAIS" "a" "\$num2"
-		remover_secundario
-		;;
-		4)
-		menu_principal
-		;;
-		5)
-		sair
-		;;
-		*)
-		cancelar
-		;;
+		1) remover_lista "SEMANAIS" "d" "\$num" ; remover_secundario ;;
+		2) remover_lista "MENSAIS" "m" "\$num1" ; remover_secundario ;;
+		3) remover_lista "ANUAIS" "a" "\$num2" ; remover_secundario ;;
+		4) menu_principal ;;
+		5) sair ;;
+		*) cancelar ;;
 	esac
 }
 
 listar_lista(){
-	nome_termo=\$1 
-	tipo_arq=\$2
-	con=\$3
+	nome_termo=\$1 ; tipo_arq=\$2 ; con=\$3
 	if [ "\$con" != "0" ]; then 
 		dialog --nocancel  --title "AGENDAMENTOS \$nome_termo" --msgbox "\$(
 i=1
@@ -842,40 +706,25 @@ listar_principal(){
 "5" "Sair" \
 --stdout)
 	case \$opcao1 in
-		1)
-		listar_lista "SEMANAIS" "d" "\$num"
-		;;
-		2)
-		listar_lista "MENSAIS" "m" "\$num1"
-		;;
-		3)
-		listar_lista "ANUAIS" "a" "\$num2"
-		;;
-		4)
-		menu_principal
-		;;
-		5)
-		sair
-		;;
-		*)
-		cancelar
-		;;
+		1) listar_lista "SEMANAIS" "d" "\$num" ;;
+		2) listar_lista "MENSAIS" "m" "\$num1" ;;
+		3) listar_lista "ANUAIS" "a" "\$num2" ;;
+		4) menu_principal ;;
+		5) sair ;;
+		*) cancelar ;;
 	esac
 	}
 
 sair(){
-	display_principal "SAINDO" "Saindo do agendador."
-	exit 0
+	display_principal "SAINDO" "Saindo do agendador." ; exit 0
 }
 
 cancelar(){
-	display_principal "SAINDO" "Cancelado pelo usuário."
-	exit 0
+	display_principal "SAINDO" "Cancelado pelo usuário." ; exit 0
 }
 
 menu_principal(){
-	texto="SETAS PARA ESCOLHER E ENTER PARA CONFIRMAR"
-	cont="\$[\${#texto} + 4]"
+	texto="SETAS PARA ESCOLHER E ENTER PARA CONFIRMAR" ; cont="\$[\${#texto} + 4]"
 	opcao=\$(dialog --title "MENU - PRINCIPAL" --menu "\$texto" 11 \$cont 4 \
 "1" "AGENDAR" \
 "2" "REMOVER AGENDAMENTOS" \
@@ -884,33 +733,20 @@ menu_principal(){
 --stdout)
 	clear
 	case \$opcao in 
-		1)
-		agendamento_principal
-		;;
-		2)
-		remover_principal
-		;;
-		3)
-		listar_principal
-		;;
-		4)
-		sair
-		;;
-		*)
-		cancelar
-		;;
+		1) agendamento_principal ;;
+		2) remover_principal ;;
+		3) listar_principal ;;
+		4) sair ;;
+		*) cancelar ;;
 	esac
 }
 
 menu_principal
-
 EOF
 		cat <<EOF > $pastaj/temporalizador.sh
 #!$SHELL
 
-n1=1
-n2=1
-n3=1
+n1=1 ; n2=1 ; n3=1
 
 if [ "\$USER" = "root" ]; then
 	user=\$SUDO_USER
@@ -985,8 +821,7 @@ else
 fi
 
 tempo_principal(){
-	configuracao="\$1"
-	ka=("\$2" "\$3" "\$4" "\$5" "\$6")
+	configuracao="\$1" ; ka=("\$2" "\$3" "\$4" "\$5" "\$6")
 	minutok=\$(echo -e "\$configuracao" | sed -n "\$n,\$n p" | cut -d ":" \${ka[0]})
 	horak=\$(echo -e "\$configuracao" | sed -n "\$n,\$n p" | cut -d ":" \${ka[1]})
 	tempok="\${horak:1:2}:\${minutok:0:2}"
@@ -1008,18 +843,9 @@ tempo_principal(){
 }
 
 ativador_principal(){
-	ano2="\$1"
-	mes2="\$2"
-	seman="\$3"
-	dia1="\$4"
-	n_1="\$5"
-	tempo2="\$6"
-	agenda1="\$7"
-	agenda="\$8"
-	teste="\$9"
-	ano=\$(date +%Y)
-	mes=\$(date +%b)
-	tempo=\$(date +%R)
+	ano2="\$1" ; mes2="\$2" ; seman="\$3" ; dia1="\$4" ; n_1="\$5"
+	tempo2="\$6" ; agenda1="\$7"; agenda="\$8" ; teste="\$9"
+	ano=\$(date +%Y) ; mes=\$(date +%b) ; tempo=\$(date +%R)
 	for i in \$ano2
 		do
 			case \$ano in
@@ -1058,8 +884,7 @@ do
 	diaconfiguracao="\$(cat \$pasta_conficuracao/agendamentosd.conf)"
 	mesconfiguracao="\$(cat \$pasta_conficuracao/agendamentosm.conf)"
 	anoconfiguracao="\$(cat \$pasta_conficuracao/agendamentosa.conf)"
-	test1="\${#diaconfiguracao}"
-	test2="\${#mesconfiguracao}"
+	test1="\${#diaconfiguracao}" ; test2="\${#mesconfiguracao}"
 	test3="\${#anoconfiguracao}"
 	if [ "\$test1" != "0" ]; then
 		cont=\$(echo -e "\$diaconfiguracao" | tail -n 1 | cut -d "-" -f1)
@@ -1079,14 +904,12 @@ do
 	else
 		cont2=0
 	fi
-	sem=\$(date +%a)
-	dia_d=\$(date +%d) 
+	sem=\$(date +%a) ; dia_d=\$(date +%d) 
 	removidod=\$(cat \$pasta_conficuracao/removidosd.conf)
 	for i in \$removidod
 	do
 		if [ "\$i" = "\$teste1" ]; then
-			echo "0" > \$pasta_conficuracao/testd.conf
-			teste1=0
+			echo "0" > \$pasta_conficuracao/testd.conf ; teste1=0
 			echo "0" > \$pasta_conficuracao/removidosd.conf
 		fi
 	done
@@ -1094,8 +917,7 @@ do
 	for i in \$removidom
 	do
 		if [ "\$i" = "\$teste2" ]; then
-			echo "0" > \$pasta_conficuracao/testm.conf
-			teste2=0
+			echo "0" > \$pasta_conficuracao/testm.conf ; teste2=0
 			echo "0" > \$pasta_conficuracao/removidosm.conf
 		fi
 	done
@@ -1103,22 +925,18 @@ do
 	for i in \$removidoa
 	do
 		if [ "\$i" = "\$teste3" ]; then
-			echo "0" > \$pasta_conficuracao/testa.conf
-			teste3=0
+			echo "0" > \$pasta_conficuracao/testa.conf ; teste3=0
 			echo "0" > \$pasta_conficuracao/removidosa.conf
 		fi
 	done
 	if [ "\$tempo" = "00:00" -o "\$test1" = "0" ]; then
-		echo "0" > \$pasta_conficuracao/testd.conf
-		teste1=0
+		echo "0" > \$pasta_conficuracao/testd.conf ; teste1=0
 	fi
 	if [ "\$tempo" = "00:00" -o "\$test2" = "0" ]; then
-		echo "0" > \$pasta_conficuracao/testm.conf
-		teste2=0
+		echo "0" > \$pasta_conficuracao/testm.conf ; teste2=0
 	fi
 	if [ "\$tempo" = "00:00" -o "\$test3" = "0" ]; then
-		echo "0" > \$pasta_conficuracao/testa.conf
-		teste3=0
+		echo "0" > \$pasta_conficuracao/testa.conf ; teste3=0
 	fi
 	if [ "\$cont" != "0" ]; then
 		if [ "\$n1" = "\$cont" ]; then
@@ -1126,8 +944,7 @@ do
 		else
 			n1=\$[n1 + 1]
 		fi
-		n="\$n1"
-		teste_1="\$teste1"
+		n=\$n1 ; teste_1=\$teste1
 		tempo_principal "\$diaconfiguracao" "-f5" "-f4" "-f3" "-f2" "-f1"
 		ativador_principal "\$ano" "\$mes" "\$semanak" "\$sem" "1" "\$tempok" "agendadia.conf" "agenda.conf" "testd.conf"
 		teste1="\$teste_1"
@@ -1138,8 +955,7 @@ do
 		else
 			n2=\$[n2 + 1]
 		fi
-		n="\$n2"
-		teste_1="\$teste2"
+		n=\$n2 ; teste_1=\$teste2
 		tempo_principal "\$mesconfiguracao" "-f6" "-f5" "-f4" "-f3" "-f2"
 		ativador_principal "\$ano" "\$mesek" "\$semanak" "\$dia_d" "2" "\$tempok" "agendames.conf" "agenda.conf" "testm.conf"
 		teste2="\$teste_1"
@@ -1150,8 +966,7 @@ do
 		else
 			n3=\$[n3 + 1]
 		fi
-		n="\$n1"
-		teste_1="\$teste3"
+		n=\$n3 ; teste_1=\$teste3
 		tempo_principal "\$anoconfiguracao" "-f7" "-f6" "-f5" "-f4" "-f3"
 		ativador_principal "\$anok" "\$mesek" "\$semanak" "\$dia_d" "3" "\$tempok" "agendaano.conf" "agenda.conf" "testa.conf"
 		teste3="\$teste_1"
@@ -1160,7 +975,6 @@ do
 done
 
 exit 0
-
 EOF
 		cat <<EOF > $pastaj/mostrador.sh
 #!$SHELL
@@ -1194,8 +1008,7 @@ case \$agenda in
 	texto1="TAREFA AGENDADA - ANUAL"
 	;;
 esac
-cont2="\$[\${#texto} + 4]"
-cont1="\$[\${#texto1} + 4]"
+cont2="\$[\${#texto} + 4]" ; cont1="\$[\${#texto1} + 4]"
 if [ \$cont1 -gt \$cont2 ]; then
 	cont=\$cont1
 else
@@ -1206,7 +1019,6 @@ dialog --colors --title "\Zr\Z1  \$texto1
 clear
 
 exit 0
-
 EOF
 		
 
@@ -1228,36 +1040,29 @@ Keywords[pt_BR]=agendamento;agenda;
 GenericName=Agendador de tarefas
 GenericName[pt_BR]=Agendador de tarefas
 Icon=$pastab/agenda.png
-
 EOF
 		
 		cp /usr/share/applications/agendador.desktop /home/$SUDO_USER/Desktop
 		display_principal "Os atalhos na Àrea de trabalho foram criados..."
-		chmod +x $pastaj/*.sh /usr/share/applications/*.desktop
-		chmod 775 /home/$SUDO_USER/Desktop/*.desktop
+		chmod +x $pastaj/*.sh /usr/share/applications/*.desktop ; chmod 775 /home/$SUDO_USER/Desktop/*.desktop
 		chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/Desktop/*.desktop
 		cat /home/$SUDO_USER/.desktop-session/startup | grep -q "$pastaj/temporalizador.sh &"
 		if [ "$?" = "1" ]; then
 			sed '/^$/d' /home/$SUDO_USER/.desktop-session/startup > /tmp/temp.conf && mv /tmp/temp.conf /home/$SUDO_USER/.desktop-session/startup
 			echo "$pastaj/temporalizador.sh &" >> /home/$SUDO_USER/.desktop-session/startup
-			chmod +x /home/$SUDO_USER/.desktop-session/startup
-			chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.desktop-session/startup
+			chmod +x /home/$SUDO_USER/.desktop-session/startup ; chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.desktop-session/startup
 			display_principal "Configuração será instalada no Startup..."
 		else
 			display_principal "A configuração encontrada e não será instalada..."
 		fi
-		pkill temporalizador.
-		display_principal "Temporizador \Z2iniciado\Zn..." 6
+		pkill temporalizador. ; display_principal "Temporizador \Z2iniciado\Zn..." 6
 		bash -c "$pastaj/temporalizador.sh" & 
-		reset
-		exit 0
+		reset ; exit 0
 		;;
 		2)
-		pkill temporalizador.
-		display_principal "Temporizador \Z1finalizado\Zn..." 6
+		pkill temporalizador. ; display_principal "Temporizador \Z1finalizado\Zn..." 6
 		if [ -d "$pastaj" ]; then
-			display_principal "O diretório Agendador será removido..."
-			rm -rf $pastaj
+			display_principal "O diretório Agendador será removido..." ; rm -rf $pastaj
 		else
 			display_principal "O diretório Agendador não encontrado..."
 		fi
@@ -1287,8 +1092,7 @@ EOF
 			display_principal "O arquivo ../Desktop/agendador.desktop será removido..."
 			rm /home/$SUDO_USER/Desktop/agendador.desktop
 		else
-			texto="O arquivo ../Desktop/agendador.desktop não encontrado..."
-			display_principal
+			display_principal "O arquivo ../Desktop/agendador.desktop não encontrado..."
 		fi
 		clear
 		cat /home/$SUDO_USER/.desktop-session/startup | grep -q "$pastaj/temporalizador.sh &"
@@ -1299,26 +1103,13 @@ EOF
 			awk -F "$pastaj/temporalizador.sh &" '{print $1}' /home/$SUDO_USER/.desktop-session/startup > /tmp/temp.conf
 			mv /tmp/temp.conf /home/$SUDO_USER/.desktop-session/startup
 			sed '/^$/d' /home/$SUDO_USER/.desktop-session/startup > /tmp/temp.conf && mv /tmp/temp.conf /home/$SUDO_USER/.desktop-session/startup
-			chmod +x /home/$SUDO_USER/.desktop-session/startup
-			chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.desktop-session/startup
-			texto="Os arquivos foram removidos..."
-			display_principal
+			chmod +x /home/$SUDO_USER/.desktop-session/startup ; chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.desktop-session/startup
+			display_principal "Os arquivos foram removidos..."
 		fi
-		reset
-		exit 0
-		;;
-		3)
-		display_principal "Saindo do instalador..."
-		reset
-		exit 0
-		;;
-		*)
-		display_principal "Instalação cancelada..."
-		reset
-		exit 0
-		;;
+		reset ; exit 0 ;;
+		3) display_principal "Saindo do instalador..." ; reset ; exit 0 ;;
+		*) display_principal "Instalação cancelada..." ; reset ; exit 0 ;;
 	esac	
 }
 
 menu
-
