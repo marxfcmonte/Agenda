@@ -966,7 +966,7 @@ do
 			done
 		done
 	done
-	nome="d1 m1 a1"
+	nome="d m a"
 	for i in \$nome
 	do
 		if [ "\$tempo" = "00:00" ]; then

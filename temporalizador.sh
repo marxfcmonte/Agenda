@@ -178,7 +178,7 @@ do
 		done
 	done
 	if [ "$tempo" = "00:00" ]; then
-		nome="d1 m1 a1"
+		nome="d m a"
 		for i in $nome
 		do
 			echo "0" > $pasta_conficuracao/test$i.conf
