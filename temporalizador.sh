@@ -30,8 +30,8 @@ do
 	fi
 done
 
-nome="dia mes ano"
-for i in $nome
+nome1="dia mes ano"
+for i in $nome1
 do
 	if ! [ -e "$pasta_conficuracao/agenda$i.conf" ]; then
 		touch $pasta_conficuracao/agenda$i.conf
@@ -150,7 +150,6 @@ do
 		cont2=0
 	fi
 	sem=$(date +%a) ; dia_d=$(date +%d) 
-	nome="d m a"
 	for i in $nome
 	do
 		removido=$(cat $pasta_conficuracao/removidos$i.conf)
@@ -178,7 +177,6 @@ do
 		done
 	done
 	if [ "$tempo" = "00:00" ]; then
-		nome="d m a"
 		for i in $nome
 		do
 			echo "0" > $pasta_conficuracao/test$i.conf
