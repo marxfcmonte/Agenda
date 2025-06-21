@@ -817,8 +817,8 @@ pasta_aplicacoes=/usr/share/Agendador
 nome="d m a"
 for i in \$nome
 do
-	if ! [ -e \$pasta_conficuracao/test"\$i"1.conf ]; then
-		echo "0" > \$pasta_conficuracao/test"\$i"1.conf
+	if ! [ -e \$pasta_conficuracao/test\$i.conf ]; then
+		echo "0" > \$pasta_conficuracao/test\$i.conf
 	fi
 	
 	if ! [ -e "\$pasta_conficuracao/agendamentos\$i.conf" ]; then
@@ -956,20 +956,20 @@ do
 	for i in \$nome
 	do
 		removido=\$(cat \$pasta_conficuracao/removidos\$i.conf)
-		linha=\$(wc -l \$pasta_conficuracao/test"\$i"1.conf | cut -d " " -f1)
+		linha=\$(wc -l \$pasta_conficuracao/test\$i.conf | cut -d " " -f1)
 		for j in \$removido
 		do
 			q=2
 			while true
 			do 
-				k=\$(sed -n "\$q,\$q p" \$pasta_conficuracao/test"\$i"1.conf)
+				k=\$(sed -n "\$q,\$q p" \$pasta_conficuracao/test\$i.conf)
 				if [ "\$k" = "\$j" ]; then
-					sed "\$q d" \$pasta_conficuracao/test"\$i"1.conf > \
+					sed "\$q d" \$pasta_conficuracao/test\$i.conf > \
 \$pasta_conficuracao/temp.conf
-					mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/test"\$i"1.conf
-					sed '/^\$/d' \$pasta_conficuracao/test"\$i"1.conf > \
+					mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/test\$i.conf
+					sed '/^\$/d' \$pasta_conficuracao/test\$i.conf > \
 \$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \
-\$pasta_conficuracao/test"\$i"1.conf
+\$pasta_conficuracao/test\$i.conf
 					echo "0" > \$pasta_conficuracao/removidos\$i.conf
 				fi
 				if [ \$q -ge \$linha ]; then
@@ -993,7 +993,7 @@ do
 			n1=\$[ n1 + 1 ]
 		fi
 		tempo_principal "\$diaconfiguracao" "-f5" "-f4" "-f3" "-f2" "-f1" "\$n1"
-		ativador_principal "\$ano" "\$mes" "\$semanak" "\$sem" "1" "\$tempok" "agendadia.conf" "agenda.conf" "testd1.conf" "\$n1"
+		ativador_principal "\$ano" "\$mes" "\$semanak" "\$sem" "1" "\$tempok" "agendadia.conf" "agenda.conf" "testd.conf" "\$n1"
 	fi
 	if [ \$cont1 -ne 0 ]; then
 		if [ \$n2 -ge \$cont1 ]; then
@@ -1002,7 +1002,7 @@ do
 			n2=\$[ n2 + 1 ]
 		fi
 		tempo_principal "\$mesconfiguracao" "-f6" "-f5" "-f4" "-f3" "-f2" "\$n2"
-		ativador_principal "\$ano" "\$mesek" "\$semanak" "\$dia_d" "2" "\$tempok" "agendames.conf" "agenda.conf" "testm1.conf" "\$n2"
+		ativador_principal "\$ano" "\$mesek" "\$semanak" "\$dia_d" "2" "\$tempok" "agendames.conf" "agenda.conf" "testm.conf" "\$n2"
 	fi
 	if [ \$cont2 -ne 0 ]; then
 		if [ \$n3 -ge \$cont2 ]; then
@@ -1011,7 +1011,7 @@ do
 			n3=\$[ n3 + 1 ]
 		fi
 		tempo_principal "\$anoconfiguracao" "-f7" "-f6" "-f5" "-f4" "-f3" "\$n3"
-		ativador_principal "\$anok" "\$mesek" "\$semanak" "\$dia_d" "3" "\$tempok" "agendaano.conf" "agenda.conf" "testa1.conf" "\$n3"
+		ativador_principal "\$anok" "\$mesek" "\$semanak" "\$dia_d" "3" "\$tempok" "agendaano.conf" "agenda.conf" "testa.conf" "\$n3"
 	fi
 	chmod 666 \$pasta_conficuracao/*.conf
 	chown \$user:\$user \$pasta_conficuracao/*.conf
