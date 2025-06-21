@@ -1,0 +1,18 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Name=Agendador de tarefas
+Name[pt_BR]=Agendador de tarefas
+Exec=roxterm -e "bash -c /usr/share/Agendador/agendador.sh"
+Terminal=false
+StartupNotify=true
+Comment=Cria agendamentos personalizados
+Comment[pt_BR]=Cria agendamentos personalizados
+Categories=Utility;
+Keywords=agendamento;agenda;
+Keywords[pt_BR]=agendamento;agenda;
+GenericName=Agendador de tarefas
+GenericName[pt_BR]=Agendador de tarefas
+Icon=/usr/share/pixmaps/Agendador/agenda.png
+
