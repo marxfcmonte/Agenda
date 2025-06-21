@@ -74,7 +74,6 @@ menu(){
 			cat <<EOF > $pastaj/agendador_icones
 https://raw.githubusercontent.com/marxfcmonte/Agenda/\
 refs/heads/main/Icones/agenda.png
-
 EOF
 			wget -i $pastaj/agendador_icones -P /tmp/
 			mv /tmp/agenda.png $pastab
@@ -92,13 +91,14 @@ pasta_conficuracao=/home/\$user/.Agendador
 
 erro_principal(){
 	clear ; texto=\$1 ; cont=\$[\${#texto} + 4]
-	dialog --colors --title "\Zr\Z1  ERRO                                                            \Zn" --infobox "\$texto" 3 \$cont
+	dialog --colors --title "\Zr\Z1  ERRO                                                           
+				\Zn" --infobox "\$texto" 3 \$cont
 	sleep 1.5
 	clear
 }
 
 display_principal(){
-	titulo=\$1 ; texto=\$2 ; clear ; cont="\$[\${#texto} + 4]"
+	titulo=\$1 ; texto=\$2 ; clear ; cont=\$[\${#texto} + 4]
 	dialog --colors --title "\$titulo" --infobox "\$texto" 3 \$cont ; sleep 2
 	clear	
 }
@@ -124,7 +124,7 @@ cadastro_principal(){
 						teste=1
 					fi
 				done
-				if [ "\$teste" -eq 1 ]; then
+				if [ \$teste -eq 1 ]; then
 					erro_principal "HORA INVÁLIDA!"
 				else
 					break
@@ -146,7 +146,7 @@ cadastro_principal(){
 						teste=1
 					fi
 				done
-				if [ "\$teste" -eq 1 ]; then
+				if [ \$teste -eq 1 ]; then
 					erro_principal "MINUTO INVÁLIDO!"
 				else
 					break
@@ -210,7 +210,7 @@ dia_principal(){
 						teste=1
 					fi
 				done
-				if [ "\$teste" -eq 1 ]; then
+				if [ \$teste -eq 1 ]; then
 					erro_principal "DIA INVÁLIDO!"
 				else
 					break
@@ -222,7 +222,6 @@ dia_principal(){
 			clear ; agendamento_principal ; break
 		fi
 	done
-	
 }
 
 mes_principal(){
@@ -355,6 +354,11 @@ ano_principal(){
 --stdout)
 }
 
+sem_compromisso(){
+	termo=\$1
+	dialog --nocancel --title "SEM AGENDAMENTOS \$termo" --msgbox "Sem Compromissos agendados." 5 31
+}
+
 agendamento_secundario(){
 	clear
 	opcao1=\$(dialog --title "MENU" --menu \
@@ -451,6 +455,14 @@ arquivo_organizacao(){
 	retorno=("\$num" "\$text_r" "\$text_r_1" "\$text_d" "\$text_d_1")
 }
 
+imprime_agendamento(){
+	num=\$1 ; d=\$2 ; titulo=\$3
+	clear
+	texto="\$(sed -n "\$num,\$num p" \$pasta_conficuracao/agendamentos\$d.conf | cut -d ":" -f1): \
+\$(sed -n "\$num,\$num p" \$pasta_conficuracao/descricao\$d.conf) \
+\$(sed -n "\$num,\$num p" \$pasta_conficuracao/agendamentos\$d.conf | cut -d "|" -f2)"
+	dialog --nocancel --title "AGENDAMENTO \$titulo" --msgbox "\$texto" 0 0
+}
 
 agendamento_principal(){
 	opcao1=\$(dialog --title "MENU - TIPOS DE AGENDAMEBTOS" --menu \
@@ -500,13 +512,7 @@ agendamento_principal(){
 \$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/agendamentosd.conf
 		sed '/^\$/d' \$pasta_conficuracao/descricaod.conf > \
 \$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/descricaod.conf
-		clear
-		cont_letra="\$(sed -n "\$num1,\$num1 p" \$pasta_conficuracao/agendamentosd.conf | cut -d ":" -f1): \
-\$(sed -n "\$num1,\$num1 p" \$pasta_conficuracao/descricaod.conf) \
-\$(sed -n "\$num1,\$num1 p" \$pasta_conficuracao/agendamentosd.conf | cut -d "|" -f2)"
-		cont=\$[\${#cont_letra} + 4]
-		dialog --nocancel --title "AGENDAMENTO SEMANAL" --pause "\$cont_letra" 15 \$cont 20
-		agendamento_secundario ;;
+		imprime_agendamento "\$num1" "d" "SEMANAL" ; agendamento_secundario ;;
 		2)
 		arquivo_organizacao "m"
 		num2=\${retorno[0]} ; text_res1=\${retorno[1]} ; text_res1_1=\${retorno[2]} 
@@ -545,14 +551,7 @@ agendamento_principal(){
 \$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/agendamentosm.conf
 		sed '/^\$/d' \$pasta_conficuracao/descricaom.conf > \
 \$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/descricaom.conf
-		clear
-		cont_letra="\$(sed -n "\$num2,\$num2 p" \$pasta_conficuracao/agendamentosm.conf | cut -d ":" -f1): \
-\$(sed -n "\$num2,\$num2 p" \$pasta_conficuracao/descricaom.conf) \
-\$(sed -n "\$num2,\$num2 p" \$pasta_conficuracao/agendamentosm.conf | cut -d "|" -f2)"
-		cont=\$[\${#cont_letra} + 4]
-		dialog --nocancel --title "AGENDAMENTO MENSAL" --pause "\$cont_letra" 15 \$cont 20
-		agendamento_secundario
-		;;
+		imprime_agendamento "\$num2" "m" "MENSAL" ; agendamento_secundario ;;
 		3) 
 		arquivo_organizacao "a"
 		num3=\${retorno[0]} ; text_res2=\${retorno[1]} ; text_res2_1=\${retorno[2]} 
@@ -604,13 +603,7 @@ agendamento_principal(){
 \$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/agendamentosa.conf
 		sed '/^\$/d' \$pasta_conficuracao/descricaoa.conf > \
 \$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/descricaoa.conf
-		clear
-		cont_letra="\$(sed -n "\$num3,\$num3 p" \$pasta_conficuracao/agendamentosa.conf | cut -d ":" -f1): \
-\$(sed -n "\$num3,\$num3 p" \$pasta_conficuracao/descricaoa.conf) \
-\$(sed -n "\$num3,\$num3 p" \$pasta_conficuracao/agendamentosa.conf | cut -d "|" -f2)"
-		cont=\$[\${#cont_letra} + 4]
-		dialog --nocancel --title "AGENDAMENTO ANUAL" --pause "\$cont_letra" 15 \$cont 20
-		agendamento_secundario ;;
+		imprime_agendamento "\$num3" "a" "ANUAL" ; agendamento_secundario ;;
 		4) menu_principal ;;
 		5) sair ;;
 		*) cancelar ;;
@@ -618,7 +611,8 @@ agendamento_principal(){
 }
 
 remover_lista(){
-	nome_termo=\$1 ; d=\$2 ; con=\$3
+	nome_termo=\$1 ; d=\$2
+	con=\$(wc -l \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)
 	while true
 	do
 		if [ "\$con" != "0" ]; then 
@@ -693,8 +687,7 @@ ou por um '-' para remover uma série de agendamentos, com o menor número e o m
 				break
 			fi
 		else
-			texto="SEM AGENDAMENTOS \$nome_termo"
-			dialog --nocancel --title "\$texto" --msgbox "Sem Compromissos agendados." 5 31
+			sem_compromisso "\$nome_termo"
 			break
 		fi
 	done
@@ -702,9 +695,6 @@ ou por um '-' para remover uma série de agendamentos, com o menor número e o m
 }
 
 remover_principal(){
-	num=\$(wc -l \$pasta_conficuracao/agendamentosd.conf | cut -d " " -f1)
-	num1=\$(wc -l \$pasta_conficuracao/agendamentosm.conf | cut -d " " -f1)
-	num2=\$(wc -l \$pasta_conficuracao/agendamentosa.conf | cut -d " " -f1)
 	opcao1=\$(dialog --title "MENU - REMOÇÃO DE AGENDAMENTOS" --menu \
 "Qual tipo de agendamento que deseja remover?" 12 48 5 \
 "1" "Remover agendamentos semanais" \
@@ -715,9 +705,9 @@ remover_principal(){
 --stdout)
 	clear
 	case \$opcao1 in
-		1) remover_lista "SEMANAIS" "d" "\$num" ;;
-		2) remover_lista "MENSAIS" "m" "\$num1" ;;
-		3) remover_lista "ANUAIS" "a" "\$num2" ;;
+		1) remover_lista "SEMANAIS" "d" ;;
+		2) remover_lista "MENSAIS" "m" ;;
+		3) remover_lista "ANUAIS" "a" ;;
 		4) menu_principal ;;
 		5) sair ;;
 		*) cancelar ;;
@@ -725,7 +715,8 @@ remover_principal(){
 }
 
 listar_lista(){
-	nome_termo=\$1 ; d=\$2 ; con=\$3
+	nome_termo=\$1 ; d=\$2
+	con=\$(wc -l \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)
 	if [ "\$con" != "0" ]; then 
 		con1=\${#nome_termo}
 		dialog --nocancel  --title "AGENDAMENTOS \$nome_termo" --msgbox "\$(
@@ -743,16 +734,12 @@ do
 	i=\$[i+1]
 done)"  0 0
 	else
-		texto="SEM AGENDAMENTOS \$nome_termo"
-		dialog --nocancel --title "\$texto" --msgbox "Sem Compromissos agendados." 5 31
+		sem_compromisso "\$nome_termo"
 	fi
 	listar_secundario
 }
 
 listar_principal(){
-	num=\$(wc -l \$pasta_conficuracao/agendamentosd.conf | cut -d " " -f1)
-	num1=\$(wc -l \$pasta_conficuracao/agendamentosm.conf | cut -d " " -f1)
-	num2=\$(wc -l \$pasta_conficuracao/agendamentosa.conf | cut -d " " -f1)
 	opcao1=\$(dialog --title "MENU - LISTA DE AGENDAMENTOS" --menu \
 "Qual tipo de agendamento que deseja ver?" 12 48 5 \
 "1" "Listar agendamentos semanais" \
@@ -762,9 +749,9 @@ listar_principal(){
 "5" "Sair" \
 --stdout)
 	case \$opcao1 in
-		1) listar_lista "SEMANAIS" "d" "\$num" ;;
-		2) listar_lista "MENSAIS" "m" "\$num1" ;;
-		3) listar_lista "ANUAIS" "a" "\$num2" ;;
+		1) listar_lista "SEMANAIS" "d" ;;
+		2) listar_lista "MENSAIS" "m" ;;
+		3) listar_lista "ANUAIS" "a" ;;
 		4) menu_principal ;;
 		5) sair ;;
 		*) cancel ;;
@@ -817,7 +804,7 @@ pasta_aplicacoes=/usr/share/Agendador
 nome="d m a"
 for i in \$nome
 do
-	if ! [ -e \$pasta_conficuracao/test\$i.conf ]; then
+	if ! [ -e "\$pasta_conficuracao/test\$i.conf" ]; then
 		echo "0" > \$pasta_conficuracao/test\$i.conf
 	fi
 	
@@ -1030,42 +1017,36 @@ else
 fi
 
 pasta_conficuracao=/home/\$user/.Agendador
-descricaod=\$(cat \$pasta_conficuracao/descricaod.conf)
-descricaom=\$(cat \$pasta_conficuracao/descricaom.conf)
-descricaoa=\$(cat \$pasta_conficuracao/descricaoa.conf)
+
+imprime_agendamento(){
+	p=\$1 ; q=\$2 ; r=\$3
+	n=\$(cat \$pasta_conficuracao/agenda\$p.conf)
+	titulo="TAREFA AGENDADA - \$r"
+	texto=\$(echo -e "\$(cat \$pasta_conficuracao/descricao\$q.conf)" | sed -n "\$n,\$n p")
+	cont2="\$[\${#texto} + 4]"
+	cont1="\$[\${#titulo} + 4]"
+	if [ \$cont1 -ge \$cont2 ]; then
+		cont=\$cont1
+	else
+		cont=\$cont2
+	fi
+	retorno=("\$titulo" "\$texto" "\$cont")
+}
 
 agenda=\$(cat \$pasta_conficuracao/agenda.conf)
 case \$agenda in 
-	1)
-	n1=\$(cat \$pasta_conficuracao/agendadia.conf)
-	texto=\$(echo -e "\$descricaod" | sed -n "\$n1,\$n1 p")
-	texto1="TAREFA AGENDADA - SEMANAL"
-	;;
-	2)
-	n2=\$(cat \$pasta_conficuracao/agendames.conf)
-	texto=\$(echo -e "\$descricaom" | sed -n "\$n2,\$n2 p")
-	texto1="TAREFA AGENDADA - MENSAL"
-	;;
-	3)
-	n3=\$(cat \$pasta_conficuracao/agendaano.conf)
-	texto=\$(echo -e "\$descricaoa" | sed -n "\$n3,\$n3 p")
-	texto1="TAREFA AGENDADA - ANUAL"
-	;;
+	1) imprime_agendamento "dia" "d" "SEMANAL" ;;
+	2) imprime_agendamento "mes" "m" "MENSAL" ;;
+	3) imprime_agendamento "ano" "a" "ANUAL" ;;
 esac
-cont2="\$[\${#texto} + 4]" ; cont1="\$[\${#texto1} + 4]"
-if [ \$cont1 -ge \$cont2 ]; then
-	cont=\$cont1
-else
-	cont=\$cont2
-fi
-dialog --colors --title "\Zr\Z1  \$texto1                          
-              \Zn" --msgbox "\Z0\$texto\Zn" 6 \$cont
+
+dialog --colors --title "\Zr\Z1  \${retorno[0]}                          
+              \Zn" --msgbox "\${retorno[1]}" 6 \${retorno[2]} 
 clear
 
 exit 0
 EOF
 		
-
 		cat <<EOF > /usr/share/applications/agendador.desktop
 [Desktop Entry]
 Version=1.0
