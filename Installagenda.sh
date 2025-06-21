@@ -966,13 +966,15 @@ do
 			done
 		done
 	done
-	nome="d m a"
-	for i in \$nome
-	do
+	
 		if [ "\$tempo" = "00:00" ]; then
-			echo "0" > \$pasta_conficuracao/test\$i.conf
+			nome="d m a"
+			for i in \$nome
+			do
+				echo "0" > \$pasta_conficuracao/test\$i.conf
+			done
 		fi
-	done
+	
 	if [ \$cont -ne 0 ]; then
 		if [ \$n1 -ge \$cont ]; then
 			n1=1
