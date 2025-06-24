@@ -950,7 +950,8 @@ do
 \$pasta_conficuracao/temp.conf
 					mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/test\$i.conf
 					sed '/^\$/d' \$pasta_conficuracao/test\$i.conf > \
-\$pasta_conficuracao/temp.conf && mv \$pasta_conficuracao/temp.conf \
+\$pasta_conficuracao/temp.conf
+					mv \$pasta_conficuracao/temp.conf \
 \$pasta_conficuracao/test\$i.conf
 					chown \$user:\$user \$pasta_conficuracao/test\$i.conf
 					echo "0" > \$pasta_conficuracao/removidos\$i.conf
