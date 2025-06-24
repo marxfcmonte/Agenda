@@ -30,7 +30,7 @@ do
 	fi
 done
 
-chmod 666 $pasta_conficuracao/*.conf
+chmod 664 $pasta_conficuracao/*.conf
 chown $user:$user $pasta_conficuracao/*.conf
 
 tempo_principal(){
@@ -83,7 +83,9 @@ ativador_principal(){
 									done
 									if [ $var -eq 1 ]; then 
 										echo "$n" >> $pasta_conficuracao/$teste
-										sed '/^$/d' $pasta_conficuracao/$teste > /tmp/temp.conf && mv /tmp/temp.conf $pasta_conficuracao/$teste
+										sed '/^$/d' $pasta_conficuracao/$teste > $pasta_conficuracao/temp.conf
+										mv $pasta_conficuracao/temp.conf $pasta_conficuracao/$teste
+										chown $user:$user $pasta_conficuracao/$teste
 										roxterm -e "$pasta_aplicacoes/mostrador.sh $n_1 $n" &
 										sleep 10
 									fi
@@ -158,8 +160,9 @@ do
 					$pasta_conficuracao/temp.conf
 					mv $pasta_conficuracao/temp.conf $pasta_conficuracao/test$i.conf
 					sed '/^$/d' $pasta_conficuracao/test$i.conf > \
-					$pasta_conficuracao/temp.conf && mv $pasta_conficuracao/temp.conf \
-					$pasta_conficuracao/test$i.conf
+					$pasta_conficuracao/temp.conf 
+					mv $pasta_conficuracao/temp.conf $pasta_conficuracao/test$i.conf
+					chown $user:$user $pasta_conficuracao/test$i.conf
 					echo "0" > $pasta_conficuracao/removidos$i.conf
 				fi
 				if [ $q -ge $linha ]; then
@@ -202,8 +205,6 @@ do
 		tempo_principal "$anoconfiguracao" "-f7" "-f6" "-f5" "-f4" "-f3" "$n3"
 		ativador_principal "$anok" "$mesek" "$semanak" "$dia_d" "3" "$tempok" "testa.conf" "$n3"
 	fi
-	chmod 666 $pasta_conficuracao/*.conf
-	chown $user:$user $pasta_conficuracao/*.conf
 	sleep 1.5
 done
 
