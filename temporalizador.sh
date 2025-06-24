@@ -74,14 +74,14 @@ ativador_principal(){
 								if [ "$tempo" = "$tempo2" ]; then
 									contador=$(cat $pasta_conficuracao/$teste)
 									contador=$(echo $contador | tr '\n' ' ')
-									var="1"
+									var=1
 									for i in $contador
 									do
 										if [ $i -eq $n ]; then
-											var="0"
+											var=0
 										fi
 									done
-									if [ "$var" = "1" ]; then 
+									if [ $var -eq 1 ]; then 
 										echo "$n" >> $pasta_conficuracao/$teste
 										sed '/^$/d' $pasta_conficuracao/$teste > /tmp/temp.conf && mv /tmp/temp.conf $pasta_conficuracao/$teste
 										roxterm -e "$pasta_aplicacoes/mostrador.sh $n_1 $n" &
