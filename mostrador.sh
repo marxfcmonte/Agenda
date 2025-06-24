@@ -1,5 +1,8 @@
 #!/bin/bash
 
+agenda="$1"
+n="$2"
+
 if [ "$USER" = "root" ]; then
 	user=$SUDO_USER
 else
@@ -9,8 +12,7 @@ fi
 pasta_conficuracao=/home/$user/.Agendador
 
 imprime_agendamento(){
-	p=$1 ; q=$2 ; r=$3
-	n=$(cat $pasta_conficuracao/agenda$p.conf)
+	q=$1 ; r=$2
 	titulo="TAREFA AGENDADA - $r"
 	texto=$(echo -e "$(cat $pasta_conficuracao/descricao$q.conf)" | sed -n "$n,$n p")
 	cont2="$[${#texto} + 4]"
@@ -23,15 +25,13 @@ imprime_agendamento(){
 	retorno=("$titulo" "$texto" "$cont")
 }
 
-agenda=$(cat $pasta_conficuracao/agenda.conf)
 case $agenda in 
-	1) imprime_agendamento "dia" "d" "SEMANAL" ;;
-	2) imprime_agendamento "mes" "m" "MENSAL" ;;
-	3) imprime_agendamento "ano" "a" "ANUAL" ;;
+	1) imprime_agendamento "d" "SEMANAL" ;;
+	2) imprime_agendamento "m" "MENSAL" ;;
+	3) imprime_agendamento "a" "ANUAL" ;;
 esac
 
 dialog --colors --title "\Zr\Z1  ${retorno[0]}                          
               \Zn" --msgbox "${retorno[1]}" 6 ${retorno[2]} 
 clear
-
 exit 0

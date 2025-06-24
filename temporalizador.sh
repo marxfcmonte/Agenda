@@ -30,20 +30,8 @@ do
 	fi
 done
 
-nome1="dia mes ano"
-for i in $nome1
-do
-	if ! [ -e "$pasta_conficuracao/agenda$i.conf" ]; then
-		touch $pasta_conficuracao/agenda$i.conf
-	fi
-done
-
-if ! [ -e "$pasta_conficuracao/agenda.conf" ]; then
-	touch $pasta_conficuracao/agenda.conf
-	chmod 666 $pasta_conficuracao/*.conf
-	chown $user:$user $pasta_conficuracao/*.conf
-fi
-
+chmod 666 $pasta_conficuracao/*.conf
+chown $user:$user $pasta_conficuracao/*.conf
 
 tempo_principal(){
 	configuracao="$1" ; ka=("$2" "$3" "$4" "$5" "$6") ; nk="$7"
@@ -69,7 +57,7 @@ tempo_principal(){
 
 ativador_principal(){
 	ano2=$1 ; mes2=$2 ; seman=$3 ; dia1=$4 ; n_1=$5 ; tempo2=$6
-	agenda1=$7 ; agenda=$8 ; teste=$9 ; n=${10}
+	teste=$7 ; n=$8
 	ano=$(date +%Y) ; mes=$(date +%b) ; tempo=$(date +%R)
 	for i in $ano2
 		do
@@ -83,15 +71,20 @@ ativador_principal(){
 						do
 							case $dia1 in 
 								$k)
-								if [ "$tempo" = "$tempo2" ]; then 
-									echo "$n" > $pasta_conficuracao/$agenda1
-									echo "$n_1" > $pasta_conficuracao/$agenda
-									cat $pasta_conficuracao/$teste | grep "$n" &>/dev/null
-									var="$?"
+								if [ "$tempo" = "$tempo2" ]; then
+									contador=$(cat $pasta_conficuracao/$teste)
+									contador=$(echo $contador | tr '\n' ' ')
+									var="1"
+									for i in $contador
+									do
+										if [ $i -eq $n ]; then
+											var="0"
+										fi
+									done
 									if [ "$var" = "1" ]; then 
 										echo "$n" >> $pasta_conficuracao/$teste
 										sed '/^$/d' $pasta_conficuracao/$teste > /tmp/temp.conf && mv /tmp/temp.conf $pasta_conficuracao/$teste
-										roxterm -e "bash -c $pasta_aplicacoes/mostrador.sh" &
+										roxterm -e "$pasta_aplicacoes/mostrador.sh $n_1 $n" &
 										sleep 10
 									fi
 								fi
@@ -189,7 +182,7 @@ do
 			n1=$[ n1 + 1 ]
 		fi
 		tempo_principal "$diaconfiguracao" "-f5" "-f4" "-f3" "-f2" "-f1" "$n1"
-		ativador_principal "$ano" "$mes" "$semanak" "$sem" "1" "$tempok" "agendadia.conf" "agenda.conf" "testd.conf" "$n1"
+		ativador_principal "$ano" "$mes" "$semanak" "$sem" "1" "$tempok" "testd.conf" "$n1"
 	fi
 	if [ $cont1 -ne 0 ]; then
 		if [ $n2 -ge $cont1 ]; then
@@ -198,7 +191,7 @@ do
 			n2=$[ n2 + 1 ]
 		fi
 		tempo_principal "$mesconfiguracao" "-f6" "-f5" "-f4" "-f3" "-f2" "$n2"
-		ativador_principal "$ano" "$mesek" "$semanak" "$dia_d" "2" "$tempok" "agendames.conf" "agenda.conf" "testm.conf" "$n2"
+		ativador_principal "$ano" "$mesek" "$semanak" "$dia_d" "2" "$tempok" "testm.conf" "$n2"
 	fi
 	if [ $cont2 -ne 0 ]; then
 		if [ $n3 -ge $cont2 ]; then
@@ -207,7 +200,7 @@ do
 			n3=$[ n3 + 1 ]
 		fi
 		tempo_principal "$anoconfiguracao" "-f7" "-f6" "-f5" "-f4" "-f3" "$n3"
-		ativador_principal "$anok" "$mesek" "$semanak" "$dia_d" "3" "$tempok" "agendaano.conf" "agenda.conf" "testa.conf" "$n3"
+		ativador_principal "$anok" "$mesek" "$semanak" "$dia_d" "3" "$tempok" "testa.conf" "$n3"
 	fi
 	chmod 666 $pasta_conficuracao/*.conf
 	chown $user:$user $pasta_conficuracao/*.conf
