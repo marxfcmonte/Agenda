@@ -279,16 +279,34 @@ sem_compromisso(){
 	dialog --nocancel --title "SEM AGENDAMENTOS $termo" --msgbox "Sem Compromissos agendados." 5 31
 }
 
-agendamento_secundario(){
+menu_secudario(){
+	titulo1=$1 ; textox=$2 ; number=$3
 	clear
-	opcao1=$(dialog --title "MENU" --menu \
-"Qual opção vai escolher?" 10 30 3 \
-"1" "Menu de agendamentos" \
+	opcaok=$(dialog --title "MENU" --menu \
+"$titulo1" 10 $number 3 \
+"1" "$textox" \
 "2" "Menu principal" \
 "3" "Sair" \
 --stdout)
+}
+
+menu_terciario(){
+	titulo1=$1 ; titulo2=$2 ; textox=$3 ; textox1=$4 ; textox2=$5 
+	number=$6
 	clear
-	case $opcao1 in
+	opcaok1=$(dialog --title "MENU - $titulo1" --menu \
+"$titulo2" 12 $number 5 \
+"1" "$textox" \
+"2" "$textox1" \
+"3" "$textox2" \
+"4" "Menu principal" \
+"5" "Sair" \
+--stdout)
+}
+
+agendamento_secundario(){
+	menu_secudario "Qual opção vai escolher?" "Menu de agendamentos" 30
+	case $opcaok in
 		1) agendamento_principal ;;
 		2) menu_principal ;;
 		3) sair ;;
@@ -297,15 +315,8 @@ agendamento_secundario(){
 }
 
 remover_secundario(){
-	clear
-	opcao1=$(dialog --title "MENU" --menu \
-"Qual opção vai escolher?" 10 41 3 \
-"1" "Menu de remoção de agendamentos" \
-"2" "Menu principal" \
-"3" "Sair" \
---stdout)
-	clear
-	case $opcao1 in
+	menu_secudario "Qual opção vai escolher?" "Menu de remoção de agendamentos" 41
+	case $opcaok in
 		1) remover_principal ;;
 		2) menu_principal ;;
 		3) sair ;;
@@ -314,15 +325,8 @@ remover_secundario(){
 }
 
 listar_secundario(){
-	clear
-	opcao1=$(dialog --title "MENU" --menu \
-"Qual opção vai escolher?" 10 37 3 \
-"1" "Menu de listar agendamentos" \
-"2" "Menu principal" \
-"3" "Sair" \
---stdout)
-	clear
-	case $opcao1 in
+	menu_secudario "Qual opção vai escolher?"  "Menu de listar agendamentos" 37
+	case $opcaok in
 		1) listar_principal ;;
 		2) menu_principal ;;
 		3) sair ;;
@@ -385,15 +389,9 @@ $(sed -n "$num,$num p" $pasta_conficuracao/agendamentos$d.conf | cut -d "|" -f2)
 }
 
 agendamento_principal(){
-	opcao1=$(dialog --title "MENU - TIPOS DE AGENDAMEBTOS" --menu \
-"Qual tipo de agendamento que deseja?" 12 40 5 \
-"1" "Agendamentos semanais" \
-"2" "Agendamentos mensais" \
-"3" "Agendamentos anuais" \
-"4" "Menu principal" \
-"5" "Sair" \
---stdout)
-	case $opcao1 in
+	menu_terciario "TIPOS DE AGENDAMEBTOS" "Qual tipo de agendamento que deseja?" \
+	"Agendamentos semanais" "Agendamentos mensais" "Agendamentos anuais" 40
+	case $opcaok1 in
 		1) 
 		arquivo_organizacao "d"
 		num1=${retorno[0]} ; text_res=${retorno[1]} ; text_res_1=${retorno[2]} 
@@ -615,16 +613,10 @@ ou por um '-' para remover uma série de agendamentos, com o menor número e o m
 }
 
 remover_principal(){
-	opcao1=$(dialog --title "MENU - REMOÇÃO DE AGENDAMENTOS" --menu \
-"Qual tipo de agendamento que deseja remover?" 12 48 5 \
-"1" "Remover agendamentos semanais" \
-"2" "Remover agendamentos mensais" \
-"3" "Remover agendamentos anuais" \
-"4" "Menu principal" \
-"5" "Sair" \
---stdout)
-	clear
-	case $opcao1 in
+	menu_terciario "REMOÇÃO DE AGENDAMENTOS" "Qual tipo de agendamento que deseja remover?" \
+	"Remover agendamentos semanais" "Remover agendamentos mensais" \
+	"Remover agendamentos anuais" 48
+	case $opcaok1 in
 		1) remover_lista "SEMANAIS" "d" ;;
 		2) remover_lista "MENSAIS" "m" ;;
 		3) remover_lista "ANUAIS" "a" ;;
@@ -660,15 +652,10 @@ done)"  0 0
 }
 
 listar_principal(){
-	opcao1=$(dialog --title "MENU - LISTA DE AGENDAMENTOS" --menu \
-"Qual tipo de agendamento que deseja ver?" 12 48 5 \
-"1" "Listar agendamentos semanais" \
-"2" "Listar agendamentos mensais" \
-"3" "Listar agendamentos anuais" \
-"4" "Menu principal" \
-"5" "Sair" \
---stdout)
-	case $opcao1 in
+	menu_terciario "LISTA DE AGENDAMENTOS" "Qual tipo de agendamento que deseja ver?" \
+	"Listar agendamentos semanais" "Listar agendamentos mensais" \
+	"Listar agendamentos anuais" 48
+	case $opcaok1 in
 		1) listar_lista "SEMANAIS" "d" ;;
 		2) listar_lista "MENSAIS" "m" ;;
 		3) listar_lista "ANUAIS" "a" ;;
