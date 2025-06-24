@@ -14,7 +14,7 @@ pasta_conficuracao=/home/$user/.Agendador
 imprime_agendamento(){
 	q=$1 ; r=$2
 	titulo="TAREFA AGENDADA - $r"
-	texto=$(echo -e "$(cat $pasta_conficuracao/descricao$q.conf)" | sed -n "$n,$n p")
+	texto=$(sed -n "$n,$n p" $pasta_conficuracao/descricao$q.conf)
 	cont2="$[${#texto} + 4]"
 	cont1="$[${#titulo} + 4]"
 	if [ $cont1 -ge $cont2 ]; then
