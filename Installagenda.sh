@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ "$USER" = "root" ]; then
+	user=$SUDO_USER
+else
+	user=$USER
+fi
+
 if [ "$USER" != "root" ]; then
 	echo "Use comando 'sudo'  ou comando 'su' antes de inicializar o programa."
 	exit 1
@@ -49,7 +55,7 @@ menu(){
 --stdout)
 	clear
 	pastab=/usr/share/pixmaps/Agendador ; pastaj=/usr/share/Agendador
-	pastaa=/home/$SUDO_USER/.Agendador
+	pastaa=/home/$user/.Agendador
 	case $opcao in
 		1)
 		display_principal "Instalação sendo iniciada..."
@@ -63,7 +69,7 @@ menu(){
 			display_principal "O diretório com a configuração existe..."
 		else
 			display_principal "O diretório com a configuração será criado..."
-			mkdir $pastaa ; chown $SUDO_USER:$SUDO_USER $pastaa
+			mkdir $pastaa ; chown $user:$user $pastaa
 		fi
 		clear
 		if [ -d "$pastab" ]; then
@@ -1066,15 +1072,16 @@ GenericName[pt_BR]=Agendador de tarefas
 Icon=$pastab/agenda.png
 EOF
 		
-		cp /usr/share/applications/agendador.desktop /home/$SUDO_USER/Desktop
+		cp /usr/share/applications/agendador.desktop /home/$user/Desktop
 		display_principal "Os atalhos na Àrea de trabalho foram criados..."
-		chmod +x $pastaj/*.sh /usr/share/applications/*.desktop ; chmod 775 /home/$SUDO_USER/Desktop/*.desktop
-		chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/Desktop/*.desktop
-		cat /home/$SUDO_USER/.desktop-session/startup | grep -q "$pastaj/temporalizador.sh &"
+		chmod +x $pastaj/*.sh /usr/share/applications/*.desktop ; chmod 775 /home/$user/Desktop/*.desktop
+		chown $user:$user /home/$user/Desktop/*.desktop
+		cat /home/$user/.desktop-session/startup | grep -q "$pastaj/temporalizador.sh &"
 		if [ "$?" = "1" ]; then
-			sed '/^$/d' /home/$SUDO_USER/.desktop-session/startup > /tmp/temp.conf && mv /tmp/temp.conf /home/$SUDO_USER/.desktop-session/startup
-			echo "$pastaj/temporalizador.sh &" >> /home/$SUDO_USER/.desktop-session/startup
-			chmod +x /home/$SUDO_USER/.desktop-session/startup ; chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.desktop-session/startup
+			sed '/^$/d' /home/$user/.desktop-session/startup > /home/$user/.desktop-session/temp.conf
+			mv /home/$user/.desktop-session/temp.conf /home/$user/.desktop-session/startup
+			echo "$pastaj/temporalizador.sh &" >> /home/$user/.desktop-session/startup
+			chmod +x /home/$user/.desktop-session/startup ; chown $user:$user /home/$user/.desktop-session/startup
 			display_principal "Configuração será instalada no Startup..."
 		else
 			display_principal "A configuração encontrada e não será instalada..."
@@ -1099,10 +1106,10 @@ EOF
 		fi
 		clear
 		if [ -d "$pastaa" ]; then
-			display_principal "O diretório /home/$SUDO_USER/.Agendador será removido..."
+			display_principal "O diretório /home/$user/.Agendador será removido..."
 			rm -rf $pastaa
 		else
-			display_principal "O diretório /home/$SUDO_USER/.Agendador não encontrado..."
+			display_principal "O diretório /home/$user/.Agendador não encontrado..."
 		fi
 		clear
 		if [ -e "/usr/share/applications/agendador.desktop" ]; then
@@ -1112,22 +1119,23 @@ EOF
 			display_principal "O arquivo ../applications/agendador.desktop não encontrado..."
 		fi
 		clear
-		if [ -e "/home/$SUDO_USER/Desktop/agendador.desktop" ]; then
+		if [ -e "/home/$user/Desktop/agendador.desktop" ]; then
 			display_principal "O arquivo ../Desktop/agendador.desktop será removido..."
-			rm /home/$SUDO_USER/Desktop/agendador.desktop
+			rm /home/$user/Desktop/agendador.desktop
 		else
 			display_principal "O arquivo ../Desktop/agendador.desktop não encontrado..."
 		fi
 		clear
-		cat /home/$SUDO_USER/.desktop-session/startup | grep -q "$pastaj/temporalizador.sh &"
+		cat /home/$user/.desktop-session/startup | grep -q "$pastaj/temporalizador.sh &"
 		if [ "$?" = "1" ]; then
 			display_principal "Configuração não encontrada.."
 		else
 			display_principal "A configuração será deletada..."
-			awk -F "$pastaj/temporalizador.sh &" '{print $1}' /home/$SUDO_USER/.desktop-session/startup > /tmp/temp.conf
-			mv /tmp/temp.conf /home/$SUDO_USER/.desktop-session/startup
-			sed '/^$/d' /home/$SUDO_USER/.desktop-session/startup > /tmp/temp.conf && mv /tmp/temp.conf /home/$SUDO_USER/.desktop-session/startup
-			chmod +x /home/$SUDO_USER/.desktop-session/startup ; chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.desktop-session/startup
+			awk -F "$pastaj/temporalizador.sh &" '{print $1}' /home/$user/.desktop-session/startup > /home/$user/.desktop-session/temp.conf
+			mv /home/$user/.desktop-session/temp.conf /home/$user/.desktop-session/startup
+			sed '/^$/d' /home/$user/.desktop-session/startup > /home/$user/.desktop-session/temp.conf 
+			mv /home/$user/.desktop-session/temp.conf /home/$user/.desktop-session/startup
+			chmod +x /home/$user/.desktop-session/startup ; chown $user:$user /home/$user/.desktop-session/startup
 			display_principal "Os arquivos foram removidos..."
 		fi
 		reset ; exit 0 ;;
