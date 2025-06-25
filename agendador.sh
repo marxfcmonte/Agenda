@@ -427,9 +427,13 @@ agendamento_principal(){
 			echo "$text_des_1" >> $pasta_conficuracao/descricaod.conf
 		fi
 		sed '/^$/d' $pasta_conficuracao/agendamentosd.conf > \
-		$pasta_conficuracao/temp.conf && mv $pasta_conficuracao/temp.conf $pasta_conficuracao/agendamentosd.conf
+		$pasta_conficuracao/temp.conf 
+		mv $pasta_conficuracao/temp.conf $pasta_conficuracao/agendamentosd.conf
 		sed '/^$/d' $pasta_conficuracao/descricaod.conf > \
-		$pasta_conficuracao/temp.conf && mv $pasta_conficuracao/temp.conf $pasta_conficuracao/descricaod.conf
+		$pasta_conficuracao/temp.conf 
+		mv $pasta_conficuracao/temp.conf $pasta_conficuracao/descricaod.conf
+		chmod 664 $pasta_conficuracao/agendamentosd.conf
+		chmod 664 $pasta_conficuracao/descricaod.conf
 		imprime_agendamento "$num1" "d" "SEMANAL" ; agendamento_secundario ;;
 		2)
 		arquivo_organizacao "m"
@@ -466,9 +470,13 @@ agendamento_principal(){
 			echo "$text_des1_1" >> $pasta_conficuracao/descricaom.conf
 		fi
 		sed '/^$/d' $pasta_conficuracao/agendamentosm.conf > \
-		$pasta_conficuracao/temp.conf && mv $pasta_conficuracao/temp.conf $pasta_conficuracao/agendamentosm.conf
+		$pasta_conficuracao/temp.conf 
+		mv $pasta_conficuracao/temp.conf $pasta_conficuracao/agendamentosm.conf
 		sed '/^$/d' $pasta_conficuracao/descricaom.conf > \
-		$pasta_conficuracao/temp.conf && mv $pasta_conficuracao/temp.conf $pasta_conficuracao/descricaom.conf
+		$pasta_conficuracao/temp.conf 
+		mv $pasta_conficuracao/temp.conf $pasta_conficuracao/descricaom.conf
+		chmod 664 $pasta_conficuracao/agendamentosm.conf
+		chmod 664 $pasta_conficuracao/descricaom.conf
 		imprime_agendamento "$num2" "m" "MENSAL" ; agendamento_secundario ;;
 		3) 
 		arquivo_organizacao "a"
@@ -518,9 +526,13 @@ agendamento_principal(){
 			echo "$text_des2_1" >> $pasta_conficuracao/descricaoa.conf
 		fi
 		sed '/^$/d' $pasta_conficuracao/agendamentosa.conf > \
-		$pasta_conficuracao/temp.conf && mv $pasta_conficuracao/temp.conf $pasta_conficuracao/agendamentosa.conf
+		$pasta_conficuracao/temp.conf 
+		mv $pasta_conficuracao/temp.conf $pasta_conficuracao/agendamentosa.conf
 		sed '/^$/d' $pasta_conficuracao/descricaoa.conf > \
-		$pasta_conficuracao/temp.conf && mv $pasta_conficuracao/temp.conf $pasta_conficuracao/descricaoa.conf
+		$pasta_conficuracao/temp.conf 
+		mv $pasta_conficuracao/temp.conf $pasta_conficuracao/descricaoa.conf
+		chmod 664 $pasta_conficuracao/agendamentosa.conf
+		chmod 664 $pasta_conficuracao/descricaoa.conf
 		imprime_agendamento "$num3" "a" "ANUAL" ; agendamento_secundario ;;
 		4) menu_principal ;;
 		5) sair ;;
@@ -588,13 +600,13 @@ ou por um '-' para remover uma série de agendamentos, com o menor número e o m
 							$pasta_conficuracao/temp.conf
 							mv $pasta_conficuracao/temp.conf $pasta_conficuracao/agendamentos$d.conf
 							sed '/^$/d' $pasta_conficuracao/agendamentos$d.conf > \
-							$pasta_conficuracao/temp.conf && mv $pasta_conficuracao/temp.conf \
+							$pasta_conficuracao/temp.conf
+							mv $pasta_conficuracao/temp.conf \
 							$pasta_conficuracao/agendamentos$d.conf
 							sed "$q d" $pasta_conficuracao/descricao$d.conf > $pasta_conficuracao/temp.conf
 							mv $pasta_conficuracao/temp.conf $pasta_conficuracao/descricao$d.conf
-							sed '/^$/d' $pasta_conficuracao/descricao$d.conf > \
-							$pasta_conficuracao/temp.conf && mv $pasta_conficuracao/temp.conf \
-							$pasta_conficuracao/descricao$d.conf
+							sed '/^$/d' $pasta_conficuracao/descricao$d.conf > $pasta_conficuracao/temp.conf 
+							mv $pasta_conficuracao/temp.conf $pasta_conficuracao/descricao$d.conf
 						fi
 						if [ $q -ge $tot ]; then
 							break
@@ -602,6 +614,8 @@ ou por um '-' para remover uma série de agendamentos, com o menor número e o m
 						q=$[q + 1]
 					done
 				done
+				chmod 664 $pasta_conficuracao/agendamentos$d.conf
+				chmod 664 $pasta_conficuracao/descricao$d.conf
 				break
 			fi
 		else

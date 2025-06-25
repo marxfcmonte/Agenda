@@ -86,6 +86,7 @@ ativador_principal(){
 										sed '/^$/d' $pasta_conficuracao/$teste > $pasta_conficuracao/temp.conf
 										mv $pasta_conficuracao/temp.conf $pasta_conficuracao/$teste
 										chown $user:$user $pasta_conficuracao/$teste
+										chmod 664 $pasta_conficuracao/$teste
 										roxterm -e "$pasta_aplicacoes/mostrador.sh $n_1 $n" &
 										sleep 1
 									fi
@@ -163,6 +164,7 @@ do
 					$pasta_conficuracao/temp.conf 
 					mv $pasta_conficuracao/temp.conf $pasta_conficuracao/test$i.conf
 					chown $user:$user $pasta_conficuracao/test$i.conf
+					chmod 664 $pasta_conficuracao/test$i.conf
 					echo "0" > $pasta_conficuracao/removidos$i.conf
 				fi
 				if [ $q -ge $linha ]; then
