@@ -710,7 +710,6 @@ listar_lista(){
 	nome_termo=\$1 ; d=\$2
 	con=\$(wc -l \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)
 	if [ "\$con" != "0" ]; then 
-		con1=\${#nome_termo}
 		dialog --nocancel  --title "AGENDAMENTOS \$nome_termo" --msgbox "\$(
 i=1
 tot=\$(wc -l \$pasta_conficuracao/agendamentos\$d.conf | cut -d " " -f1)
@@ -864,7 +863,7 @@ ativador_principal(){
 										mv \$pasta_conficuracao/temp.conf \$pasta_conficuracao/\$teste
 										chown \$user:\$user \$pasta_conficuracao/\$teste
 										roxterm -e "\$pasta_aplicacoes/mostrador.sh \$n_1 \$n" &
-										sleep 10
+										sleep 1
 									fi
 								fi
 								;;

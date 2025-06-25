@@ -87,7 +87,7 @@ ativador_principal(){
 										mv $pasta_conficuracao/temp.conf $pasta_conficuracao/$teste
 										chown $user:$user $pasta_conficuracao/$teste
 										roxterm -e "$pasta_aplicacoes/mostrador.sh $n_1 $n" &
-										sleep 10
+										sleep 1
 									fi
 								fi
 								;;
