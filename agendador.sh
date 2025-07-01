@@ -244,33 +244,33 @@ mes_principal(){
 ano_principal(){
 	ano=$(date +%Y)
 	case $ano in
-		"2025") estado2=("ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
-		"2026") estado2=("OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
-		"2027") estado2=("OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
-		"2028") estado2=("OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
-		"2029") estado2=("OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
-		"2030") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
-		"2031") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
-		"2032") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF") ;;
-		"2033") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF") ;;
-		"2034") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF") ;;
-		"2035") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF") ;;
-		"2036") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON") ;;
+		"$ano") estado2=("ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
+		"$[ano + 1]") estado2=("OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
+		"$[ano + 2]") estado2=("OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
+		"$[ano + 3]") estado2=("OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
+		"$[ano + 4]") estado2=("OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
+		"$[ano + 5]") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
+		"$[ano + 6]") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF" "OFF") ;;
+		"$[ano + 7]") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF" "OFF") ;;
+		"$[ano + 8]") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF" "OFF") ;;
+		"$[ano + 9]") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF" "OFF") ;;
+		"$[ano + 10]") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON" "OFF") ;;
+		"$[ano + 11]") estado2=("OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "OFF" "ON") ;;
 	esac
-	opcao4=$(dialog --no-cancel --title "MENU - ANOS DE 2025 A 2036" --checklist \
+	opcao4=$(dialog --no-cancel --title "MENU - ANOS DE $ano A $[ano + 11]" --checklist \
 "Qual dos anos serão habilitados?" 19 37 12 \
-"2025" "Ano 2025" ${estado2[0]} \
-"2026" "Ano 2026" ${estado2[1]} \
-"2027" "Ano 2027" ${estado2[2]} \
-"2028" "Ano 2028" ${estado2[3]} \
-"2029" "Ano 2029" ${estado2[4]} \
-"2030" "Ano 2030" ${estado2[5]} \
-"2031" "Ano 2031" ${estado2[6]} \
-"2032" "Ano 2032" ${estado2[7]} \
-"2033" "Ano 2033" ${estado2[8]} \
-"2034" "Ano 2034" ${estado2[9]} \
-"2035" "Ano 2035" ${estado2[10]} \
-"2036" "Ano 2036" ${estado2[11]} \
+"$ano" "Ano $ano" ${estado2[0]} \
+"$[ano + 1]" "Ano $[ano + 1]" ${estado2[1]} \
+"$[ano + 2]" "Ano $[ano + 2]" ${estado2[2]} \
+"$[ano + 3]" "Ano $[ano + 3]" ${estado2[3]} \
+"$[ano + 4]" "Ano $[ano + 4]" ${estado2[4]} \
+"$[ano + 5]" "Ano $[ano + 5]" ${estado2[5]} \
+"$[ano + 6]" "Ano $[ano + 6]" ${estado2[6]} \
+"$[ano + 7]" "Ano $[ano + 7]" ${estado2[7]} \
+"$[ano + 8]" "Ano $[ano + 8]" ${estado2[8]} \
+"$[ano + 9]" "Ano $[ano + 9]" ${estado2[9]} \
+"$[ano + 10]" "Ano $[ano + 10]" ${estado2[10]} \
+"$[ano + 11]" "Ano $[ano + 11]" ${estado2[11]} \
 --stdout)
 }
 
