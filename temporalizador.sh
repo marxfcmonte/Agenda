@@ -165,7 +165,6 @@ do
 					mv $pasta_conficuracao/temp.conf $pasta_conficuracao/test$i.conf
 					chown $user:$user $pasta_conficuracao/test$i.conf
 					chmod 664 $pasta_conficuracao/test$i.conf
-					echo "0" > $pasta_conficuracao/removidos$i.conf
 				fi
 				if [ $q -ge $linha ]; then
 					break
@@ -173,6 +172,7 @@ do
 				q=$[q + 1]
 			done
 		done
+		echo "0" > $pasta_conficuracao/removidos$i.conf
 	done
 	if [ "$tempo" = "00:00" ]; then
 		for i in $nome
